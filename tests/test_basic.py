@@ -20,7 +20,7 @@ def test_seq_examples(name, tmp_path):
 
 
 def test_hld_example_no_collisions(tmp_path):
-    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t")
+    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t", base_dir=EX)
     assert d.warnings == []
     xml = drawio.convert_scene(d.scene())
     assert drawio.validate(xml) == []
@@ -28,7 +28,7 @@ def test_hld_example_no_collisions(tmp_path):
 
 def test_edges_never_enter_other_boxes():
     spec = load_spec(EX / "checkout-hld.yaml")
-    d = hld.build(spec, "t")
+    d = hld.build(spec, "t", base_dir=EX)
     boxes = {e["id"][2:]: e for e in d.elements if e["type"] == "rectangle" and e["id"].startswith("n-")}
     for a in (e for e in d.elements if e["type"] == "arrow" and e["id"].startswith("e-")):
         pts = [tuple(p) for p in a["customData"]["route"]]
@@ -87,14 +87,14 @@ def test_builtin_icons_all_load():
 
 
 def test_hld_example_has_icons():
-    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t")
+    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t", base_dir=EX)
     assert sum(1 for e in d.elements if e["type"] == "image") >= 10
     assert d.warnings == []
 
 
 @pytest.mark.parametrize("o,lo,hi", [("landscape", 1.2, 3.0), ("portrait", 0.4, 1.0)])
 def test_hld_orientation_changes_shape_without_collisions(o, lo, hi):
-    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t", orientation=o)
+    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t", base_dir=EX, orientation=o)
     assert lo <= d.width / d.height <= hi
     assert d.warnings == []
 

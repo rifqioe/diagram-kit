@@ -7,8 +7,8 @@ One spec in, four files out: **`.excalidraw`**, **`.svg`**, **`.png`**, **`.draw
 - Own layout engine: zones on a grid, nodes in a grid inside each zone, orthogonal arrows of at most 3 segments
   that go from box side to box side, labels on white boxes, collision check against boxes, manual waypoints (`via`).
 - Palette: blue, green, orange, purple, gray (+ yellow, red). Themes: `default`, `mono` (print friendly), `dark`, or your own.
-- Icons: 19 generic built-in pictograms (`icon: builtin:database`), plus your own logos from a local path or URL.
-  No third-party logos are bundled.
+- Icons: 19 generic built-in pictograms (`icon: builtin:database`), plus real logos from a local path or URL
+  (the examples show NGINX, Redis, PostgreSQL, Kafka, Prometheus; see `examples/logos/NOTICE.md`).
 - Landscape / portrait: `--orientation` re-flows a diagram to the page shape you want, and `convert` flips an existing file.
 - Ships as a Claude Code Skill (`SKILL.md`).
 
@@ -105,7 +105,9 @@ nodes:
 
 Built-in names: run `diagramkit icons` (user, browser, mobile, server, database, cache, queue, gateway, cloud, lock,
 shield, bell, mail, chart, monitor, api, payment, settings, key). They are original MIT pictograms.
-Brand logos (Redis, PostgreSQL, AWS ...) are **not** bundled: supply them yourself and check each logo's license and brand rules.
+Brand logos are not part of the package. The examples use five real product logos (NGINX, Redis, PostgreSQL, Apache Kafka,
+Prometheus) kept in `examples/logos/` with `NOTICE.md` (owners, sources, trademark notice); they are **not** covered by this
+project's MIT license. For other logos supply your own file or URL and check the owner's brand rules.
 Formats: svg, png, jpg. A missing or unreachable icon only produces a warning.
 
 ## Landscape and portrait
@@ -147,4 +149,4 @@ pip install -e ".[dev]" && pytest
 
 ## License
 
-MIT
+MIT for the code and built-in icons. Logos in `examples/logos/` are third-party trademarks, see `examples/logos/NOTICE.md`.

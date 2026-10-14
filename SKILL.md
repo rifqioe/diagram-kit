@@ -39,5 +39,5 @@ Colors: blue, green, orange, purple, gray, yellow, red. Themes: `-t default|mono
 - Use neutral, generic names unless the user supplies real ones. Never invent customer or company names.
 - One role per color (e.g. blue = existing, green = new, purple = data, orange = devices/clients, gray = external).
 - Keep labels short (2-4 words) on edges; put detail in notes (sequence) or node text (HLD).
-- Icons: use `icon: builtin:<name>` (see `diagramkit icons`) for generic pictograms. Brand logos are user supplied (`icon:` path or URL); do not add them without the user's say-so.
+- Icons: use `icon: builtin:<name>` (see `diagramkit icons`) for generic pictograms. Real logos: `icon: path/to/logo.svg` or a URL; `examples/logos/` has five sample logos (see NOTICE.md). Do not bundle new brand logos into the package without the user's say-so.
 - PNG needs `resvg-py` (installed with the package) or `cairosvg`.
