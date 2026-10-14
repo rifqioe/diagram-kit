@@ -9,7 +9,7 @@ from pathlib import Path
 
 from .core import (Diagram, SpecError, arrow_el, base, block_width, box_with_text, get_theme, need, register_icon, text_el,
                    text_width, wrap_text)
-from .route import EdgeIn, Router
+from .route import EdgeIn, Router, add_jumps
 
 _EDGE = re.compile(r"^\s*([\w.\-]+?)\s*(-->|->)\s*([\w.\-]+)\s*(?::\s*(.*))?$", re.S)
 SIDES = ("top", "right", "bottom", "left")
@@ -257,9 +257,16 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
 
     edge_els = []
     maxx, maxy = gw, gh
+    jumps = spec.get("jumps", "arc")
+    if jumps not in ("arc", "none"):
+        raise SpecError("jumps must be 'arc' or 'none'")
+    jsize = float(spec.get("jump_size", 7))
+    hopped = add_jumps([rt.pts for rt in routes], jsize) if jumps == "arc" else [rt.pts for rt in routes]
     for k, (rt, d) in enumerate(zip(routes, raw_edges)):
         head = d.get("arrow", "end")
-        edge_els.append(arrow_el(f"e-{k}", rt.pts, th.edge, dashed=bool(d.get("dashed")), head=head))
+        el = arrow_el(f"e-{k}", hopped[k], th.edge, dashed=bool(d.get("dashed")), head=head)
+        el["customData"] = {"route": [list(p) for p in rt.pts], "jumps": jumps, "jumpSize": jsize}  # orthogonal route, for draw.io
+        edge_els.append(el)
         warnings += rt.problems
         for p in rt.pts:
             maxx, maxy = max(maxx, p[0] + M / 2), max(maxy, p[1] + M / 2)

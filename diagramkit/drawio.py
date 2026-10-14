@@ -103,7 +103,11 @@ def convert_scene(ex: dict) -> str:
     for e in els:
         if e["type"] != "arrow":
             continue
-        pts = [(e["x"] + p[0], e["y"] + p[1]) for p in e["points"]]
+        cd = e.get("customData") or {}
+        if cd.get("route"):  # use the orthogonal route; hops are drawn by draw.io itself (jumpStyle)
+            pts = [tuple(p) for p in cd["route"]]
+        else:
+            pts = [(e["x"] + p[0], e["y"] + p[1]) for p in e["points"]]
         sid, sb = find_node(*pts[0])
         tid, tb = find_node(*pts[-1])
         end, start = bool(e.get("endArrowhead")), bool(e.get("startArrowhead"))
@@ -112,6 +116,8 @@ def convert_scene(ex: dict) -> str:
              "strokeWidth": e["strokeWidth"], "jettySize": "auto"}
         if e["strokeStyle"] == "dashed":
             d["dashed"] = 1
+        if cd.get("jumps") == "arc":
+            d.update({"jumpStyle": "arc", "jumpSize": round(cd.get("jumpSize", 7) * 1.4)})
         if sb:
             d.update({"exitX": round((pts[0][0] - sb[0]) / sb[2], 3), "exitY": round((pts[0][1] - sb[1]) / sb[3], 3),
                       "exitDx": 0, "exitDy": 0})

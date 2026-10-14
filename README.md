@@ -88,6 +88,8 @@ legend: {blue: "Existing", green: "New"}   # optional; or a list of {color, labe
   (`cols` columns). `colspan` makes a node span several columns.
 - Colors: palette name, `"#rrggbb"` (fill is derived) or `[fill, stroke]`.
 - Icons: `icon:` is a path (relative to the spec file) or an `http(s)` URL (svg, png, jpg). A failed icon is a warning, not an error.
+- Line hops: where a horizontal edge crosses another edge, it bends into a small arc (`jumps: arc`, default). Set `jumps: none`
+  to turn it off, `jump_size: 7` to change the radius. In `.drawio` this maps to draw.io's own `jumpStyle=arc`.
 - Routing: edges keep clear of boxes and zone borders where space allows. Each edge picks the side pair with the cleanest route (straight, L, Z or U). Edges that share a box side
   get separate ports; parallel edges get separate lanes. Warnings are printed for any edge that still crosses a box or
   any label that overlaps a box; fix with `from_side`/`to_side` or `via`.

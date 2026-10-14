@@ -31,7 +31,7 @@ def test_edges_never_enter_other_boxes():
     d = hld.build(spec, "t")
     boxes = {e["id"][2:]: e for e in d.elements if e["type"] == "rectangle" and e["id"].startswith("n-")}
     for a in (e for e in d.elements if e["type"] == "arrow" and e["id"].startswith("e-")):
-        pts = [(a["x"] + p[0], a["y"] + p[1]) for p in a["points"]]
+        pts = [tuple(p) for p in a["customData"]["route"]]
         assert len(pts) <= 4  # at most 3 segments
         for b in boxes.values():
             r = (b["x"], b["y"], b["x"] + b["width"], b["y"] + b["height"])
@@ -116,3 +116,30 @@ def test_seq_orientation():
     ls = seq.build(sp, "t", orientation="landscape")
     pt = seq.build(sp, "t", orientation="portrait")
     assert ls.width / ls.height > pt.width / pt.height
+
+
+def test_jumps_arc_and_none():
+    spec = {"zones": [{"id": "z", "label": "Z", "cols": 3}],
+            "nodes": [{"id": i, "zone": "z", "label": i.upper()} for i in "abcdef"],
+            "edges": [{"from": "a", "to": "c", "via": [[0, 0]]}, "a->f", "c->d"]}
+    spec["edges"] = [{"from": "d", "to": "f", "from_side": "top", "to_side": "top"}, {"from": "b", "to": "e", "label": ""}]
+    on = hld.build(spec, "t")
+    off = hld.build({**spec, "jumps": "none"}, "t")
+    n_on = sum(len(e["points"]) for e in on.elements if e["type"] == "arrow")
+    n_off = sum(len(e["points"]) for e in off.elements if e["type"] == "arrow")
+    assert n_on >= n_off
+    assert all("route" in e["customData"] for e in on.elements if e["type"] == "arrow" and e["id"].startswith("e-"))
+    xml = drawio.convert_scene(on.scene())
+    assert "jumpStyle=arc" in xml and drawio.validate(xml) == []
+    assert "jumpStyle" not in drawio.convert_scene(off.scene())
+
+
+def test_add_jumps_geometry():
+    from diagramkit.route import add_jumps
+
+    h = [(0, 50), (200, 50)]
+    v = [(100, 0), (100, 100)]
+    a, b = add_jumps([h, v])
+    assert b == [(100, 0), (100, 100)]
+    assert len(a) > 4 and min(p[1] for p in a) < 50  # arc rises above the line
+    assert a[0] == (0, 50) and a[-1] == (200, 50)

@@ -18,7 +18,7 @@
 <polyline points="1023.8,336.5 1023.8,479.5 1156.8,479.5 1156.8,650.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
 <polyline points="564.4,336.5 564.4,650.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
 <polyline points="925.8,336.5 925.8,479.5 782.3,479.5 782.3,650.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
-<polyline points="959.9,650.5 959.9,462.2 1551.1,462.2 1551.1,330.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="959.9,650.5 959.9,462.2 1016.8,462.2 1017.3,459.5 1018.9,457.3 1021.1,455.7 1023.8,455.2 1026.5,455.7 1028.7,457.3 1030.3,459.5 1030.8,462.2 1551.1,462.2 1551.1,330.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
 <polyline points="291.8,678.5 409.8,678.5 409.8,189.7 471.8,189.7" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
 <polyline points="291.8,806.5 1156.8,806.5 1156.8,713.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
 <rect x="90.0" y="146.0" width="201.8" height="56.0" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5"/>

@@ -453,3 +453,34 @@ def _hugs(p, q, z: Rect) -> int:
 
 def _rect_overlap(a: Rect, b: Rect, m: float = 0) -> bool:
     return a[0] < b[2] + m and a[2] > b[0] - m and a[1] < b[3] + m and a[3] > b[1] - m
+
+
+def add_jumps(routes: list, r: float = 7.0, samples: int = 8) -> list:
+    """Line hops: where a horizontal segment crosses another edge's vertical segment, bend it into a small arc.
+    `routes` is a list of point lists (orthogonal); returns new point lists (arcs are polylines)."""
+    vert = []  # (route index, x, y0, y1)
+    for k, pts in enumerate(routes):
+        for p, q in segs(pts):
+            if abs(p[0] - q[0]) < 0.05:
+                vert.append((k, p[0], min(p[1], q[1]), max(p[1], q[1])))
+    out = []
+    for k, pts in enumerate(routes):
+        new = [pts[0]]
+        for p, q in segs(pts):
+            if abs(p[1] - q[1]) < 0.05 and abs(p[0] - q[0]) > 4 * r:
+                s = 1 if q[0] > p[0] else -1
+                xs = sorted((v[1] for v in vert if v[0] != k and v[2] + 2 < p[1] < v[3] - 2
+                             and min(p[0], q[0]) + r + 3 < v[1] < max(p[0], q[0]) - r - 3), reverse=(s < 0))
+                last = None
+                for x in xs:
+                    if last is not None and abs(x - last) < 2 * r + 4:
+                        continue  # two crossings too close: hop only the first
+                    last = x
+                    for i in range(samples + 1):
+                        t = i / samples
+                        import math
+
+                        new.append((x - s * r * math.cos(math.pi * t), p[1] - r * math.sin(math.pi * t)))
+            new.append(q)
+        out.append([(round(a, 1), round(b, 1)) for a, b in new])
+    return out

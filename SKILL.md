@@ -30,6 +30,8 @@ Sequence: `participants` (id, label, color) + `steps`:
 HLD: `zones` (id, label, color, row, col, cols, frame) + `nodes` (id, zone, label, color, icon, dashed, colspan, row, col)
 + `edges` (`"a->b: label"` or `{from,to,label,dashed,arrow,from_side,to_side,via}`) + optional `legend`.
 
+HLD options: `jumps: arc|none` (line hops at crossings, default arc), `jump_size`, `orientation`.
+
 Colors: blue, green, orange, purple, gray, yellow, red. Themes: `-t default|mono|dark`.
 
 ## Rules of thumb
