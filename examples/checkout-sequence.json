@@ -1,0 +1,38 @@
+{
+  "name": "checkout-sequence",
+  "title": "Checkout and payment",
+  "subtitle": "Order created first, payment authorized by an external provider, stock reserved with compensation on failure",
+  "theme": "default",
+  "participants": [
+    {"id": "cus", "label": "Customer", "color": "blue"},
+    {"id": "shop", "label": "Shop Frontend", "color": "blue"},
+    {"id": "ord", "label": "Order Service", "color": "green"},
+    {"id": "inv", "label": "Inventory\nService", "color": "green"},
+    {"id": "pay", "label": "Payment\nService", "color": "green"},
+    {"id": "psp", "label": "Payment Provider\n(external)", "color": "gray"}
+  ],
+  "steps": [
+    {"divider": "1. Place order"},
+    {"msg": "cus->shop: Click Pay"},
+    {"msg": "shop->ord: POST /orders (cart, idempotency key)"},
+    {"msg": "ord->inv: Reserve stock"},
+    {"msg": "inv-->ord: reserved (15 min hold)"},
+    {"msg": {"from": "ord", "to": "pay", "label": "Create payment intent"}},
+    {"msg": "pay->psp: Authorize amount"},
+    {"divider": "2. Result"},
+    {"frame": "alt  authorization approved", "steps": [
+      {"msg": "psp-->pay: approved"},
+      {"msg": "pay-->ord: PaymentAuthorized"},
+      {"msg": "ord->inv: Commit reservation"},
+      {"msg": "ord-->shop: 201 Order confirmed"},
+      {"msg": "shop-->cus: Confirmation page + email"}
+    ]},
+    {"frame": "alt  declined or timeout", "steps": [
+      {"msg": "psp-->pay: declined"},
+      {"msg": "pay-->ord: PaymentFailed"},
+      {"msg": "ord->inv: Release reservation"},
+      {"msg": "ord-->shop: 402 Payment failed"},
+      {"note": "Customer can retry with the same cart;\nthe idempotency key prevents double charge", "over": ["shop", "ord"]}
+    ]}
+  ]
+}

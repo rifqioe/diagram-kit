@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "diagramkit"
+version = "0.1.0"
+description = "Sequence and HLD (architecture) diagrams from JSON/YAML specs. Outputs .excalidraw, .svg, .png, .drawio."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+keywords = ["diagram", "sequence-diagram", "architecture", "excalidraw", "drawio", "claude-code-skill"]
+dependencies = ["PyYAML>=6", "resvg-py>=0.1"]
+
+[project.optional-dependencies]
+cairo = ["cairosvg>=2.7"]
+dev = ["pytest"]
+
+[project.scripts]
+diagramkit = "diagramkit.cli:main"
+
+[tool.setuptools]
+packages = ["diagramkit"]

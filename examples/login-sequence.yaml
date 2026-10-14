@@ -1,0 +1,50 @@
+# Sequence diagram example: web login with MFA fallback.
+name: login-sequence
+title: User login with token refresh
+subtitle: Password login, optional MFA challenge, short-lived access token and refresh rotation
+participants:
+  - {id: usr, label: "User\n(Browser)", color: blue}
+  - {id: web, label: "Web App", color: blue}
+  - {id: api, label: "API Gateway", color: green}
+  - {id: auth, label: "Auth Service", color: green}
+  - {id: mfa, label: "MFA Provider", color: purple}
+  - {id: db, label: "User Database", color: orange}
+steps:
+  - divider: "1. Password login"
+  - "usr->web: Submit email + password"
+  - "web->api: POST /login"
+  - "api->auth: Verify credentials"
+  - "auth->db: Load user + password hash"
+  - "db-->auth: User record"
+  - note:
+      "Compare with slow hash (argon2id);\nrate limit per account and per IP"
+    over: auth
+  - frame: "alt  MFA enabled for this user"
+    steps:
+      - "auth->mfa: Send challenge"
+      - "mfa-->usr: One-time code (SMS / app)"
+      - "usr->web: Enter code"
+      - "web->api: POST /login/mfa"
+      - "api->auth: Verify code"
+      - "auth->mfa: Validate code"
+      - "mfa-->auth: valid"
+  - "auth-->api: Access token (15 min) + refresh token"
+  - "api-->web: 200 + Set-Cookie (HttpOnly)"
+  - "web-->usr: Signed in"
+  - divider: "2. Token refresh"
+  - frame: "loop  access token expires"
+    steps:
+      - "web->api: POST /refresh (refresh cookie)"
+      - "api->auth: Rotate refresh token"
+      - "auth->db: Store new token, revoke old"
+      - "auth-->api: New access + refresh token"
+      - "api-->web: 200"
+      - frame: "alt  refresh token reused (theft)"
+        steps:
+          - "auth->db: Revoke token family"
+          - "auth-->web: 401, sign in again"
+      - note: "Reuse of a rotated token revokes the whole family"
+        over: [auth, db]
+        color: red
+  - divider: "3. Self call"
+  - "auth->auth: Write audit event"

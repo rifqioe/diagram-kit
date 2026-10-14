@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1609" height="956" viewBox="0 0 1609 956">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs><marker id="ah0" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,4 L0,8 z" fill="#444444"/></marker></defs>
+<rect x="60.0" y="100.0" width="202.0" height="374.5" rx="10" fill="none" stroke="#2563eb" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="382.0" y="100.0" width="832.0" height="374.5" rx="10" fill="none" stroke="#16a34a" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="1334.0" y="100.0" width="214.7" height="374.5" rx="10" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="60.0" y="584.5" width="202.0" height="248.0" rx="10" fill="none" stroke="#ea580c" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="382.0" y="584.5" width="832.0" height="248.0" rx="10" fill="none" stroke="#7c3aed" stroke-width="1" stroke-dasharray="8 5"/>
+<polyline points="161.0,202.0 161.0,266.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="86.0,174.0 64.0,174.0 64.0,420.5 86.0,420.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="236.0,297.2 322.0,297.2 322.0,160.0 408.0,160.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="236.0,420.5 332.0,420.5 332.0,174.0 408.0,174.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1174.0,202.0 1174.0,234.0 903.0,234.0 903.0,266.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="422.0,202.0 422.0,266.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="828.0,297.2 768.0,297.2" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="978.0,297.2 1038.0,297.2" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1188.0,297.2 1274.0,297.2 1274.0,174.0 1360.0,174.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="964.0,328.5 964.0,479.5 1078.0,479.5 1078.0,630.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="500.5,328.5 500.5,630.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="842.0,328.5 842.0,479.5 702.0,479.5 702.0,630.5" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="894.0,630.5 894.0,466.2 1441.4,466.2 1441.4,322.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="236.0,658.5 342.0,658.5 342.0,188.0 408.0,188.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="236.0,778.5 1078.0,778.5 1078.0,693.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<rect x="86.0" y="146.0" width="150.0" height="56.0" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5"/>
+<text y="178.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="161.0" dy="0.0">Shopper</tspan></text>
+<rect x="86.0" y="266.0" width="150.0" height="62.5" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<text y="293.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="161.0" dy="0.0">Web storefront</tspan><tspan x="161.0" dy="16.2">(SPA)</tspan></text>
+<rect x="86.0" y="392.5" width="150.0" height="56.0" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<text y="424.7" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="161.0" dy="0.0">Mobile app</tspan></text>
+<rect x="408.0" y="146.0" width="780.0" height="56.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="178.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="798.0" dy="0.0">API Gateway (TLS, auth, rate limit)</tspan></text>
+<rect x="408.0" y="266.0" width="150.0" height="62.5" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="293.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="483.0" dy="0.0">Catalog</tspan><tspan x="483.0" dy="16.2">Service</tspan></text>
+<rect x="618.0" y="266.0" width="150.0" height="62.5" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="293.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="693.0" dy="0.0">Inventory</tspan><tspan x="693.0" dy="16.2">Service</tspan></text>
+<rect x="828.0" y="266.0" width="150.0" height="62.5" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="293.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="903.0" dy="0.0">Order</tspan><tspan x="903.0" dy="16.2">Service</tspan></text>
+<rect x="1038.0" y="266.0" width="150.0" height="62.5" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="293.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1113.0" dy="0.0">Payment</tspan><tspan x="1113.0" dy="16.2">Service</tspan></text>
+<rect x="1360.0" y="146.0" width="162.7" height="56.0" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5"/>
+<text y="178.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1441.4" dy="0.0">Payment provider</tspan></text>
+<rect x="1360.0" y="266.0" width="162.7" height="56.0" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="8 5"/>
+<text y="298.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1441.4" dy="0.0">Email / SMS gateway</tspan></text>
+<rect x="86.0" y="630.5" width="150.0" height="56.0" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="1.5"/>
+<text y="662.7" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="161.0" dy="0.0">Admin console</tspan></text>
+<rect x="86.0" y="750.5" width="150.0" height="56.0" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="1.5"/>
+<text y="782.7" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="161.0" dy="0.0">Metrics and alerting</tspan></text>
+<rect x="408.0" y="630.5" width="220.0" height="62.5" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<text y="657.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="518.0" dy="0.0">Redis</tspan><tspan x="518.0" dy="16.2">cart, sessions</tspan></text>
+<rect x="688.0" y="630.5" width="220.0" height="62.5" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<text y="657.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="798.0" dy="0.0">Message queue</tspan><tspan x="798.0" dy="16.2">order events</tspan></text>
+<rect x="968.0" y="630.5" width="220.0" height="62.5" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<text y="657.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1078.0" dy="0.0">PostgreSQL</tspan><tspan x="1078.0" dy="16.2">orders, stock</tspan></text>
+<rect x="60.0" y="902.5" width="40.0" height="24.0" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<rect x="213.1" y="902.5" width="40.0" height="24.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<rect x="402.4" y="902.5" width="40.0" height="24.0" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<rect x="605.8" y="902.5" width="40.0" height="24.0" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="1.5"/>
+<rect x="757.9" y="902.5" width="40.0" height="24.0" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="15" fill="#2563eb" text-anchor="start"><tspan x="74.0" dy="0.0">Zone A - Clients</tspan></text>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="15" fill="#16a34a" text-anchor="start"><tspan x="396.0" dy="0.0">Zone B - Platform services</tspan></text>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="15" fill="#6b7280" text-anchor="start"><tspan x="1348.0" dy="0.0">Zone C - External</tspan></text>
+<text y="606.8" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="15" fill="#ea580c" text-anchor="start"><tspan x="74.0" dy="0.0">Zone D - Operations</tspan></text>
+<text y="606.8" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="15" fill="#7c3aed" text-anchor="start"><tspan x="396.0" dy="0.0">Zone E - Data and messaging</tspan></text>
+<rect x="138.2" y="225.0" width="45.5" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="236.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="161.0" dy="0.0">browse</tspan></text>
+<rect x="50.4" y="288.2" width="27.2" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="299.7" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="64.0" dy="0.0">use</tspan></text>
+<rect x="255.8" y="288.2" width="46.3" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="299.6" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="279.0" dy="0.0">HTTPS</tspan></text>
+<rect x="260.9" y="411.5" width="46.3" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="422.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="284.0" dy="0.0">HTTPS</tspan></text>
+<rect x="1011.8" y="225.0" width="53.3" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="236.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1038.5" dy="0.0">checkout</tspan></text>
+<rect x="401.1" y="225.0" width="41.9" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="236.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="422.0" dy="0.0">search</tspan></text>
+<rect x="775.4" y="288.2" width="45.2" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="299.6" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="798.0" dy="0.0">reserve</tspan></text>
+<rect x="987.0" y="288.2" width="41.9" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="299.6" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1008.0" dy="0.0">charge</tspan></text>
+<rect x="1246.9" y="226.6" width="54.2" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="238.0" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1274.0" dy="0.0">authorize</tspan></text>
+<rect x="942.6" y="395.0" width="42.8" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="406.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="964.0" dy="0.0">persist</tspan></text>
+<rect x="481.2" y="470.5" width="38.6" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="481.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="500.5" dy="0.0">cache</tspan></text>
+<rect x="807.6" y="395.0" width="68.7" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="406.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="842.0" dy="0.0">OrderPlaced</tspan></text>
+<rect x="1149.2" y="457.2" width="37.1" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="468.6" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1167.7" dy="0.0">notify</tspan></text>
+<rect x="258.5" y="649.5" width="60.9" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="661.0" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="289.0" dy="0.0">admin API</tspan></text>
+<rect x="633.8" y="769.5" width="46.4" height="18.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="781.0" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="657.0" dy="0.0">metrics</tspan></text>
+<text y="916.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start"><tspan x="110.0" dy="0.0">Client side</tspan></text>
+<text y="916.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start"><tspan x="263.1" dy="0.0">Platform services</tspan></text>
+<text y="916.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start"><tspan x="452.4" dy="0.0">Data and messaging</tspan></text>
+<text y="916.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start"><tspan x="655.8" dy="0.0">Operations</tspan></text>
+<text y="916.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#1e1e1e" text-anchor="start"><tspan x="807.9" dy="0.0">External / actors</tspan></text>
+<text y="28.9" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="22" fill="#1e1e1e" text-anchor="middle"><tspan x="804.4" dy="0.0">High Level Design - Checkout Platform</tspan></text>
+<text y="53.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#555555" text-anchor="middle"><tspan x="804.4" dy="0.0">Example architecture generated by diagramkit (zones on a grid, auto-routed orthogonal edges)</tspan></text>
+</svg>

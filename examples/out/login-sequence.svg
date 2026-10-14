@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1463" height="1800" viewBox="0 0 1463 1800">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs><marker id="ah0" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,4 L0,8 z" fill="#444444"/></marker></defs>
+<rect x="30.0" y="170.0" width="1402.9" height="26.0" rx="0" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<rect x="68.0" y="533.0" width="1103.1" height="369.0" rx="10" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="30.0" y="1067.0" width="1402.9" height="26.0" rx="0" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<rect x="291.8" y="1412.0" width="1103.1" height="134.0" rx="10" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="281.8" y="1125.0" width="1123.1" height="494.0" rx="10" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="30.0" y="1643.0" width="1402.9" height="26.0" rx="0" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<polyline points="171.9,146.0 171.9,1760.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="395.7,146.0 395.7,1760.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="619.5,146.0 619.5,1760.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="843.3,146.0 843.3,1760.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="1067.1,146.0 1067.1,1760.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="1291.0,146.0 1291.0,1760.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="171.9,222.0 395.7,222.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="395.7,269.0 619.5,269.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="619.5,316.0 843.3,316.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="843.3,363.0 1290.9,363.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1291.0,410.0 843.4,410.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="843.3,579.0 1067.1,579.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1067.1,626.0 171.9,626.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="171.9,673.0 395.7,673.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="395.7,720.0 619.5,720.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="619.5,767.0 843.3,767.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="843.3,814.0 1067.1,814.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1067.1,861.0 843.3,861.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="843.3,926.0 619.5,926.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="619.5,973.0 395.7,973.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="395.7,1020.0 171.9,1020.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="395.7,1171.0 619.5,1171.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="619.5,1218.0 843.3,1218.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="843.3,1265.0 1290.9,1265.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="843.3,1312.0 619.5,1312.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="619.5,1359.0 395.7,1359.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="843.3,1458.0 1290.9,1458.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="843.3,1505.0 395.7,1505.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="843.3,1695.0 889.3,1695.0 889.3,1717.0 843.3,1717.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<rect x="71.9" y="90.0" width="200.0" height="56.0" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<text y="114.1" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="171.9" dy="0.0">User</tspan><tspan x="171.9" dy="16.2">(Browser)</tspan></text>
+<rect x="295.7" y="90.0" width="200.0" height="56.0" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="395.7" dy="0.0">Web App</tspan></text>
+<rect x="519.5" y="90.0" width="200.0" height="56.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="619.5" dy="0.0">API Gateway</tspan></text>
+<rect x="743.3" y="90.0" width="200.0" height="56.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="843.3" dy="0.0">Auth Service</tspan></text>
+<rect x="967.1" y="90.0" width="200.0" height="56.0" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1067.1" dy="0.0">MFA Provider</tspan></text>
+<rect x="1191.0" y="90.0" width="200.0" height="56.0" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1291.0" dy="0.0">User Database</tspan></text>
+<rect x="738.3" y="457.0" width="210.0" height="48.0" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+<text y="477.7" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle"><tspan x="843.3" dy="0.0">Compare with slow hash (argon2id);</tspan><tspan x="843.3" dy="13.8">rate limit per account and per IP</tspan></text>
+<rect x="813.3" y="1570.0" width="507.6" height="33.0" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1"/>
+<text y="1590.1" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle"><tspan x="1067.1" dy="0.0">Reuse of a rotated token revokes the whole family</tspan></text>
+<text y="186.3" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#374151" text-anchor="start"><tspan x="40.0" dy="0.0">1. Password login</tspan></text>
+<rect x="215.5" y="202.0" width="136.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="213.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="283.8" dy="0.0">Submit email + password</tspan></text>
+<rect x="471.9" y="249.0" width="71.4" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="260.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="507.6" dy="0.0">POST /login</tspan></text>
+<rect x="682.9" y="296.0" width="97.1" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="307.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="731.4" dy="0.0">Verify credentials</tspan></text>
+<rect x="994.3" y="343.0" width="145.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="354.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1067.1" dy="0.0">Load user + password hash</tspan></text>
+<rect x="1033.8" y="390.0" width="66.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="401.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1067.1" dy="0.0">User record</tspan></text>
+<rect x="912.1" y="559.0" width="86.4" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="570.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="955.2" dy="0.0">Send challenge</tspan></text>
+<rect x="547.0" y="606.0" width="145.1" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="617.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="619.5" dy="0.0">One-time code (SMS / app)</tspan></text>
+<rect x="252.1" y="653.0" width="63.5" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="664.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="283.8" dy="0.0">Enter code</tspan></text>
+<rect x="461.1" y="700.0" width="93.1" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="711.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="507.6" dy="0.0">POST /login/mfa</tspan></text>
+<rect x="698.0" y="747.0" width="66.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="758.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="731.4" dy="0.0">Verify code</tspan></text>
+<rect x="916.1" y="794.0" width="78.2" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="805.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="955.2" dy="0.0">Validate code</tspan></text>
+<rect x="937.4" y="841.0" width="35.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="852.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="955.2" dy="0.0">valid</tspan></text>
+<text y="550.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#6b7280" text-anchor="start"><tspan x="78.0" dy="0.0">alt  MFA enabled for this user</tspan></text>
+<rect x="633.5" y="906.0" width="195.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="917.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="731.4" dy="0.0">Access token (15 min) + refresh token</tspan></text>
+<rect x="432.8" y="953.0" width="149.7" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="964.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="507.6" dy="0.0">200 + Set-Cookie (HttpOnly)</tspan></text>
+<rect x="254.9" y="1000.0" width="57.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1011.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="283.8" dy="0.0">Signed in</tspan></text>
+<text y="1083.3" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#374151" text-anchor="start"><tspan x="40.0" dy="0.0">2. Token refresh</tspan></text>
+<rect x="428.5" y="1151.0" width="158.3" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1162.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="507.6" dy="0.0">POST /refresh (refresh cookie)</tspan></text>
+<rect x="677.1" y="1198.0" width="108.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1209.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="731.4" dy="0.0">Rotate refresh token</tspan></text>
+<rect x="993.4" y="1245.0" width="147.4" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1256.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1067.1" dy="0.0">Store new token, revoke old</tspan></text>
+<rect x="658.2" y="1292.0" width="146.5" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1303.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="731.4" dy="0.0">New access + refresh token</tspan></text>
+<rect x="492.4" y="1339.0" width="30.5" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1350.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="507.6" dy="0.0">200</tspan></text>
+<rect x="1011.5" y="1438.0" width="111.3" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1449.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1067.1" dy="0.0">Revoke token family</tspan></text>
+<rect x="569.9" y="1485.0" width="99.3" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1496.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="619.5" dy="0.0">401, sign in again</tspan></text>
+<text y="1429.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#6b7280" text-anchor="start"><tspan x="301.8" dy="0.0">alt  refresh token reused (theft)</tspan></text>
+<text y="1142.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#6b7280" text-anchor="start"><tspan x="291.8" dy="0.0">loop  access token expires</tspan></text>
+<text y="1659.3" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#374151" text-anchor="start"><tspan x="40.0" dy="0.0">3. Self call</tspan></text>
+<rect x="893.3" y="1693.0" width="93.5" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1704.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="start"><tspan x="895.3" dy="0.0">Write audit event</tspan></text>
+<text y="29.0" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="20" fill="#1e1e1e" text-anchor="middle"><tspan x="731.4" dy="0.0">User login with token refresh</tspan></text>
+<text y="55.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#555555" text-anchor="middle"><tspan x="731.4" dy="0.0">Password login, optional MFA challenge, short-lived access token and refresh rotation</tspan></text>
+</svg>

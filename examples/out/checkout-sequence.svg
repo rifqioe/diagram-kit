@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1451" height="1239" viewBox="0 0 1451 1239">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs><marker id="ah0" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,4 L0,8 z" fill="#444444"/></marker></defs>
+<rect x="30.0" y="170.0" width="1391.0" height="26.0" rx="0" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<rect x="30.0" y="504.0" width="1391.0" height="26.0" rx="0" fill="#f3f4f6" stroke="none" stroke-width="1"/>
+<rect x="68.0" y="562.0" width="1315.0" height="275.0" rx="10" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="8 5"/>
+<rect x="289.8" y="867.0" width="1093.1" height="298.0" rx="10" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="8 5"/>
+<polyline points="170.9,146.0 170.9,1199.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="392.7,146.0 392.7,1199.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="614.6,146.0 614.6,1199.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="836.4,146.0 836.4,1199.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="1058.2,146.0 1058.2,1199.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="1280.1,146.0 1280.1,1199.0" fill="none" stroke="#9ca3af" stroke-width="1" stroke-dasharray="6 4"/>
+<polyline points="170.9,222.0 392.7,222.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="392.7,269.0 614.5,269.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="614.6,316.0 836.4,316.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="836.4,363.0 614.6,363.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="614.6,410.0 1058.3,410.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1058.2,457.0 1280.0,457.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="1280.1,608.0 1058.3,608.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="1058.2,655.0 614.5,655.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="614.6,702.0 836.4,702.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="614.6,749.0 392.8,749.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="392.7,796.0 170.9,796.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="1280.1,913.0 1058.3,913.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="1058.2,960.0 614.5,960.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<polyline points="614.6,1007.0 836.4,1007.0" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#ah0)"/>
+<polyline points="614.6,1054.0 392.8,1054.0" fill="none" stroke="#444444" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah0)"/>
+<rect x="70.9" y="90.0" width="200.0" height="56.0" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="170.9" dy="0.0">Customer</tspan></text>
+<rect x="292.7" y="90.0" width="200.0" height="56.0" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="392.7" dy="0.0">Shop Frontend</tspan></text>
+<rect x="514.6" y="90.0" width="200.0" height="56.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="122.2" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="614.6" dy="0.0">Order Service</tspan></text>
+<rect x="736.4" y="90.0" width="200.0" height="56.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="114.1" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="836.4" dy="0.0">Inventory</tspan><tspan x="836.4" dy="16.2">Service</tspan></text>
+<rect x="958.2" y="90.0" width="200.0" height="56.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+<text y="114.1" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1058.2" dy="0.0">Payment</tspan><tspan x="1058.2" dy="16.2">Service</tspan></text>
+<rect x="1180.1" y="90.0" width="200.0" height="56.0" rx="10" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5"/>
+<text y="114.1" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#1e1e1e" text-anchor="middle"><tspan x="1280.1" dy="0.0">Payment Provider</tspan><tspan x="1280.1" dy="16.2">(external)</tspan></text>
+<rect x="362.7" y="1101.0" width="281.8" height="48.0" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="1"/>
+<text y="1121.7" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#1e1e1e" text-anchor="middle"><tspan x="503.7" dy="0.0">Customer can retry with the same cart;</tspan><tspan x="503.7" dy="13.8">the idempotency key prevents double charge</tspan></text>
+<text y="186.3" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#374151" text-anchor="start"><tspan x="40.0" dy="0.0">1. Place order</tspan></text>
+<rect x="252.2" y="202.0" width="59.3" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="213.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="281.8" dy="0.0">Click Pay</tspan></text>
+<rect x="406.7" y="249.0" width="193.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="260.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="503.7" dy="0.0">POST /orders (cart, idempotency key)</tspan></text>
+<rect x="685.2" y="296.0" width="80.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="307.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="725.5" dy="0.0">Reserve stock</tspan></text>
+<rect x="665.2" y="343.0" width="120.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="354.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="725.5" dy="0.0">reserved (15 min hold)</tspan></text>
+<rect x="777.4" y="390.0" width="117.9" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="401.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="836.4" dy="0.0">Create payment intent</tspan></text>
+<rect x="1120.9" y="437.0" width="96.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="448.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1169.1" dy="0.0">Authorize amount</tspan></text>
+<text y="520.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="13" fill="#374151" text-anchor="start"><tspan x="40.0" dy="0.0">2. Result</tspan></text>
+<rect x="1141.5" y="588.0" width="55.3" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="599.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1169.1" dy="0.0">approved</tspan></text>
+<rect x="783.3" y="635.0" width="106.3" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="646.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="836.4" dy="0.0">PaymentAuthorized</tspan></text>
+<rect x="672.1" y="682.0" width="106.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="693.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="725.5" dy="0.0">Commit reservation</tspan></text>
+<rect x="448.5" y="729.0" width="110.2" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="740.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="503.7" dy="0.0">201 Order confirmed</tspan></text>
+<rect x="212.0" y="776.0" width="139.6" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="787.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="281.8" dy="0.0">Confirmation page + email</tspan></text>
+<text y="579.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#6b7280" text-anchor="start"><tspan x="78.0" dy="0.0">alt  authorization approved</tspan></text>
+<rect x="1142.7" y="893.0" width="52.9" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="904.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="1169.1" dy="0.0">declined</tspan></text>
+<rect x="793.5" y="940.0" width="85.8" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="951.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="836.4" dy="0.0">PaymentFailed</tspan></text>
+<rect x="671.6" y="987.0" width="107.7" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="998.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="725.5" dy="0.0">Release reservation</tspan></text>
+<rect x="450.2" y="1034.0" width="106.9" height="17.0" rx="0" fill="#ffffff" stroke="none" stroke-width="1"/>
+<text y="1045.5" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="11" fill="#222222" text-anchor="middle"><tspan x="503.7" dy="0.0">402 Payment failed</tspan></text>
+<text y="884.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#6b7280" text-anchor="start"><tspan x="299.8" dy="0.0">alt  declined or timeout</tspan></text>
+<text y="29.0" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="20" fill="#1e1e1e" text-anchor="middle"><tspan x="725.5" dy="0.0">Checkout and payment</tspan></text>
+<text y="55.4" font-family="Helvetica, Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif" font-size="12" fill="#555555" text-anchor="middle"><tspan x="725.5" dy="0.0">Order created first, payment authorized by an external provider, stock reserved with compensation on failure</tspan></text>
+</svg>
