@@ -184,16 +184,34 @@ class Diagram:
     theme: Theme
     files: dict = field(default_factory=dict)
     warnings: list = field(default_factory=list)
+    source: dict | None = None  # {"kind", "spec", "base_dir"}: embedded in .excalidraw so `diagramkit convert` can re-lay it out
 
     def scene(self) -> dict:
-        return dict(type="excalidraw", version=2, source="diagramkit", elements=self.elements,
-                    appState={"viewBackgroundColor": self.theme.bg, "gridSize": None}, files=self.files)
+        sc = dict(type="excalidraw", version=2, source="diagramkit", elements=self.elements,
+                  appState={"viewBackgroundColor": self.theme.bg, "gridSize": None}, files=self.files)
+        if self.source:
+            sc["diagramkit"] = self.source
+        return sc
 
 
 # --------------------------------------------------------------------------- icons (optional, user supplied)
-def load_icon(src: str, base_dir: str | Path = ".", timeout: int = 10):
-    """Return (mime, data_url) for a local path or http(s) URL. Raises OSError/ValueError on failure."""
-    if re.match(r"https?://", src):
+ICON_DIR = Path(__file__).parent / "icons"
+
+
+def list_icons() -> list[str]:
+    return sorted(p.stem for p in ICON_DIR.glob("*.svg"))
+
+
+def load_icon(src: str, base_dir: str | Path = ".", timeout: int = 10, color: str = "#334155"):
+    """Return (mime, data_url) for 'builtin:name', a local path, or an http(s) URL. Raises OSError/ValueError on failure."""
+    if src.startswith("builtin:"):
+        name = src[8:].strip()
+        p = ICON_DIR / f"{name}.svg"
+        if not p.is_file():
+            raise ValueError(f"unknown builtin icon '{name}' (available: {', '.join(list_icons())})")
+        raw = p.read_text(encoding="utf-8").replace("currentColor", color).encode()
+        mt = "image/svg+xml"
+    elif re.match(r"https?://", src):
         req = urllib.request.Request(src, headers={"User-Agent": "diagramkit"})
         with urllib.request.urlopen(req, timeout=timeout) as r:
             raw = r.read(5_000_000)
@@ -206,7 +224,7 @@ def load_icon(src: str, base_dir: str | Path = ".", timeout: int = 10):
             p = Path(base_dir) / p
         raw = p.read_bytes()
         mt = mimetypes.guess_type(str(p))[0] or ("image/svg+xml" if p.suffix.lower() == ".svg" else "image/png")
-    if mt == "image/svg+xml":
+    if mt == "image/svg+xml" and not src.startswith("builtin:"):
         t = raw.decode("utf-8", "replace").replace('width="1em"', 'width="64"').replace('height="1em"', 'height="64"')
         raw = t.encode()
     elif not mt.startswith("image/"):
@@ -214,10 +232,10 @@ def load_icon(src: str, base_dir: str | Path = ".", timeout: int = 10):
     return mt, f"data:{mt};base64,{base64.b64encode(raw).decode()}"
 
 
-def register_icon(files: dict, src: str, base_dir, warnings: list):
+def register_icon(files: dict, src: str, base_dir, warnings: list, color: str = "#334155"):
     """Load icon into the Excalidraw `files` map; returns fileId or None (and a warning) on failure."""
     try:
-        mt, du = load_icon(src, base_dir)
+        mt, du = load_icon(src, base_dir, color=color)
     except Exception as ex:  # noqa: BLE001 - user supplied path/URL: never crash the render
         warnings.append(f"icon skipped ({src}): {ex}")
         return None

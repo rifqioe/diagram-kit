@@ -1,12 +1,31 @@
 """Sequence diagrams from a spec (participants + steps: msg, note, divider, frame)."""
 from __future__ import annotations
 
+import copy
+import math
 import re
+from pathlib import Path
 
 from .core import (Diagram, SpecError, arrow_el, base, block_width, box_with_text, get_theme, need, text_el, text_width,
                    wrap_text)
 
 _MSG = re.compile(r"^\s*([\w.\-]+?)\s*(-->|->)\s*([\w.\-]+)\s*:\s*(.*)$", re.S)
+
+
+def wrap_to(text: str, maxw: float, fs: float) -> str:
+    """Greedy word wrap each line of `text` to at most `maxw` px; explicit newlines are kept."""
+    out = []
+    for line in text.split("\n"):
+        cur = ""
+        for word in line.split(" "):
+            t = (cur + " " + word).strip() if cur else word
+            if cur and text_width(t, fs) > maxw:
+                out.append(cur)
+                cur = word
+            else:
+                cur = t
+        out.append(cur)
+    return "\n".join(out)
 
 
 class Seq:
@@ -47,6 +66,8 @@ class Seq:
     def msg(self, a, b, label, dashed=False):
         th, i = self.theme, self._id("m")
         xa, xb, y = self._x(a), self._x(b), self.y
+        span = max(abs(self.ids.index(a) - self.ids.index(b)), 1)
+        label = wrap_to(label, span * self.gap - 36 if a != b else 170, 11)
         lines = label.split("\n")
         lw = block_width(label, 11) + 12
         lh = 15 * len(lines) + 2
@@ -101,11 +122,12 @@ class Seq:
         th = self.theme
         top, bottom = 90, self.y + 10
         nodes, edges = [], []
+        bw = min(200, self.gap - 20)
         for pid, label, color in self.parts:
             x = self.xs[pid]
             fill, stroke = th.color(color)
-            nodes += box_with_text("hd-" + pid, x - 100, top, 200, 56, label, fill, stroke, fs=13, text_color=th.text,
-                                   gid="grp-" + pid)
+            nodes += box_with_text("hd-" + pid, x - bw / 2, top, bw, 56, wrap_to(label, bw - 16, 13), fill, stroke, fs=13,
+                                   text_color=th.text, gid="grp-" + pid)
             edges.append(arrow_el("ll-" + pid, [(x, top + 56), (x, bottom)], th.lifeline, dashed=True, head="none", width=1))
         W, H = self.W, int(bottom + 40)
         labels = list(self.labels)
@@ -202,8 +224,33 @@ def _emit(seq: Seq, steps, where, depth_guard=0):
             raise SpecError(f"{w}: unknown step; expected one of divider, msg, note, frame (got keys {list(s)})")
 
 
-def build(spec: dict, name: str = "sequence", theme=None) -> Diagram:
-    th = get_theme(theme if theme is not None else spec.get("theme"))
+def build(spec: dict, name: str = "sequence", theme=None, base_dir=".", orientation=None) -> Diagram:
+    spec = copy.deepcopy(spec)
+    src = {"kind": "seq", "spec": copy.deepcopy(spec), "base_dir": str(Path(base_dir).resolve())}
+    orientation = orientation or spec.get("orientation")
+    if orientation not in (None, "auto", "landscape", "portrait"):
+        raise SpecError("orientation must be landscape, portrait or auto")
+    if spec.get("gap") or orientation in (None, "auto"):
+        d = _build(spec, name, theme, spec.get("gap"))
+    else:
+        # sequence diagrams grow downward; orientation changes the lane spacing until the aspect ratio fits
+        target = 1.5 if orientation == "landscape" else 0.75
+        parts = _participants(spec)
+        base_gap = _auto_gap(parts, spec.get("steps") or [], [p[0] for p in parts])
+        lo = 150
+        hi = 380
+        cands = [base_gap] + list(range(hi, lo - 1, -10)) if orientation == "landscape" else [base_gap] + list(range(lo, 380, 10))
+        d, best = None, None
+        for g in sorted(set(cands)):
+            dd = _build(spec, name, theme, g)
+            cost = abs(math.log(dd.width / dd.height / target))
+            if best is None or cost < best - 1e-9:
+                d, best = dd, cost
+    d.source = src
+    return d
+
+
+def _participants(spec):
     raw = need(spec, "participants", "spec")
     parts = []
     for k, p in enumerate(raw):
@@ -213,10 +260,16 @@ def build(spec: dict, name: str = "sequence", theme=None) -> Diagram:
         parts.append((pid, wrap_text(p.get("label", pid)), p.get("color", "blue")))
     if len({p[0] for p in parts}) != len(parts):
         raise SpecError("participants: duplicate id")
+    return parts
+
+
+def _build(spec, name, theme, gap) -> Diagram:
+    th = get_theme(theme if theme is not None else spec.get("theme"))
+    parts = _participants(spec)
     steps = need(spec, "steps", "spec")
     order = [p[0] for p in parts]
     title = wrap_text(spec.get("title", ""))
-    gap = spec.get("gap") or _auto_gap(parts, steps, order)
+    gap = gap or _auto_gap(parts, steps, order)
     seq = Seq(title, wrap_text(spec.get("subtitle", "")), parts, th, gap=gap)
     # widen so a long title fits; keep lifelines centered
     need_w = max(block_width(title, 20), block_width(spec.get("subtitle", "") or "", 12)) + 80

@@ -72,3 +72,47 @@ def test_themes_and_svg_escape():
         assert "a &lt; b &amp; c" in svg
     xml = drawio.convert_scene(seq.build(spec, "t").scene())
     assert drawio.validate(xml) == []
+
+
+def test_builtin_icons_all_load():
+    from diagramkit.core import list_icons, load_icon
+
+    names = list_icons()
+    assert len(names) >= 15
+    for n in names:
+        mt, du = load_icon(f"builtin:{n}", color="#123456")
+        assert mt == "image/svg+xml" and du.startswith("data:image/svg+xml;base64,")
+    with pytest.raises(ValueError):
+        load_icon("builtin:nope")
+
+
+def test_hld_example_has_icons():
+    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t")
+    assert sum(1 for e in d.elements if e["type"] == "image") >= 10
+    assert d.warnings == []
+
+
+@pytest.mark.parametrize("o,lo,hi", [("landscape", 1.2, 3.0), ("portrait", 0.4, 1.0)])
+def test_hld_orientation_changes_shape_without_collisions(o, lo, hi):
+    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "t", orientation=o)
+    assert lo <= d.width / d.height <= hi
+    assert d.warnings == []
+
+
+def test_convert_roundtrip(tmp_path):
+    from diagramkit.cli import main
+
+    d = hld.build(load_spec(EX / "checkout-hld.yaml"), "a", base_dir=EX)
+    write_outputs(d, tmp_path, formats=("excalidraw",))
+    assert main(["convert", str(tmp_path / "a.excalidraw"), "portrait", "-o", str(tmp_path), "-f", "svg,drawio"]) == 0
+    assert (tmp_path / "a-portrait.svg").exists()
+    sd = seq.build(load_spec(EX / "login-sequence.yaml"), "s")
+    write_outputs(sd, tmp_path, formats=("excalidraw",))
+    assert main(["convert", str(tmp_path / "s.excalidraw"), "landscape", "-o", str(tmp_path), "-f", "svg"]) == 0
+
+
+def test_seq_orientation():
+    sp = load_spec(EX / "login-sequence.yaml")
+    ls = seq.build(sp, "t", orientation="landscape")
+    pt = seq.build(sp, "t", orientation="portrait")
+    assert ls.width / ls.height > pt.width / pt.height

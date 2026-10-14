@@ -7,7 +7,9 @@ One spec in, four files out: **`.excalidraw`**, **`.svg`**, **`.png`**, **`.draw
 - Own layout engine: zones on a grid, nodes in a grid inside each zone, orthogonal arrows of at most 3 segments
   that go from box side to box side, labels on white boxes, collision check against boxes, manual waypoints (`via`).
 - Palette: blue, green, orange, purple, gray (+ yellow, red). Themes: `default`, `mono` (print friendly), `dark`, or your own.
-- Optional icons from a local path or URL. No third-party icons are bundled.
+- Icons: 19 generic built-in pictograms (`icon: builtin:database`), plus your own logos from a local path or URL.
+  No third-party logos are bundled.
+- Landscape / portrait: `--orientation` re-flows a diagram to the page shape you want, and `convert` flips an existing file.
 - Ships as a Claude Code Skill (`SKILL.md`).
 
 ## Install
@@ -27,9 +29,12 @@ The PNG renderer needs at least one system font (Arial, Helvetica, Liberation Sa
 diagramkit seq examples/login-sequence.yaml -o out/
 diagramkit hld examples/checkout-hld.yaml   -o out/
 diagramkit drawio some.excalidraw                  # convert any diagramkit .excalidraw to .drawio
+diagramkit hld spec.yaml -o out/ -r portrait       # lay out for a portrait page (or -r landscape)
+diagramkit convert out/x.excalidraw portrait       # re-lay out an existing diagramkit file (landscape <-> portrait)
+diagramkit icons                                   # list built-in icons
 ```
 
-Options for `seq` and `hld`: `-n NAME`, `-f excalidraw,svg,png,drawio`, `-t default|mono|dark`, `--scale 2`, `--strict`
+Options for `seq` and `hld`: `-r landscape|portrait|auto`, `-n NAME`, `-f excalidraw,svg,png,drawio`, `-t default|mono|dark`, `--scale 2`, `--strict`
 (exit code 2 on warnings such as an edge crossing a box). `python -m diagramkit ...` works too.
 
 ## Sequence spec
@@ -83,15 +88,44 @@ legend: {blue: "Existing", green: "New"}   # optional; or a list of {color, labe
   (`cols` columns). `colspan` makes a node span several columns.
 - Colors: palette name, `"#rrggbb"` (fill is derived) or `[fill, stroke]`.
 - Icons: `icon:` is a path (relative to the spec file) or an `http(s)` URL (svg, png, jpg). A failed icon is a warning, not an error.
-- Routing: each edge picks the side pair with the cleanest route (straight, L, Z or U). Edges that share a box side
+- Routing: edges keep clear of boxes and zone borders where space allows. Each edge picks the side pair with the cleanest route (straight, L, Z or U). Edges that share a box side
   get separate ports; parallel edges get separate lanes. Warnings are printed for any edge that still crosses a box or
   any label that overlaps a box; fix with `from_side`/`to_side` or `via`.
+
+## Icons
+
+```yaml
+nodes:
+  - {id: db,  zone: data, label: "PostgreSQL", icon: "builtin:database"}   # built-in, drawn in the theme text color
+  - {id: web, zone: edge, label: "Storefront", icon: "icons/web.svg"}      # your file (relative to the spec)
+  - {id: r,   zone: data, label: "Redis",      icon: "https://cdn.simpleicons.org/redis"}   # URL, fetched at render time
+```
+
+Built-in names: run `diagramkit icons` (user, browser, mobile, server, database, cache, queue, gateway, cloud, lock,
+shield, bell, mail, chart, monitor, api, payment, settings, key). They are original MIT pictograms.
+Brand logos (Redis, PostgreSQL, AWS ...) are **not** bundled: supply them yourself and check each logo's license and brand rules.
+Formats: svg, png, jpg. A missing or unreachable icon only produces a warning.
+
+## Landscape and portrait
+
+- `-r portrait` / `-r landscape` (or `orientation:` in the spec) picks the layout whose page shape fits best.
+  HLD: tries the grid as written, transposed, and re-flowed with fewer/more zone columns; zones whose nodes have no explicit
+  `row`/`col` also get their node columns re-flowed. Among fits it prefers layouts with short hops between connected zones.
+  Sequence: lane spacing is tuned (messages and participant names wrap to fit).
+- `diagramkit convert FILE.excalidraw portrait|landscape` re-renders an existing file. It works because diagramkit stores
+  the spec inside the `.excalidraw` file (extra top-level key `diagramkit`, ignored by Excalidraw). Files that were hand-edited
+  in Excalidraw and re-saved lose that key; render from the spec again in that case.
+- Pin positions you care about with explicit `row`/`col`; those are kept as written inside a zone.
 
 ## Examples
 
 `examples/` has two sequence specs (YAML and JSON) and one HLD spec. Rendered outputs are in `examples/out/`.
 
 ![checkout hld](examples/out/checkout-hld.png)
+
+Same spec with `-r portrait`:
+
+![checkout hld portrait](examples/out/checkout-hld-portrait.png)
 
 ## Python API
 

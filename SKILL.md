@@ -17,7 +17,9 @@ Install once: `pip install <path to this repo>` (or `python -m diagramkit` from 
    - `crosses box` / `no legal route`: set `from_side`/`to_side` on the edge, add `via: [[x, y], ...]`,
      or move nodes (`row`/`col`, `colspan`) so connected nodes are neighbours.
    - `label ... overlaps`: shorten the label or increase `layout.node_gap_x/node_gap_y`.
-4. Give the user the files from `out/` (`.excalidraw` opens in excalidraw.com, `.drawio` in diagrams.net).
+4. Page shape: add `-r portrait` or `-r landscape` to `seq`/`hld`, or flip an existing diagram with
+   `diagramkit convert out/x.excalidraw portrait`.
+5. Give the user the files from `out/` (`.excalidraw` opens in excalidraw.com, `.drawio` in diagrams.net).
 
 ## Spec cheat sheet
 
@@ -35,5 +37,5 @@ Colors: blue, green, orange, purple, gray, yellow, red. Themes: `-t default|mono
 - Use neutral, generic names unless the user supplies real ones. Never invent customer or company names.
 - One role per color (e.g. blue = existing, green = new, purple = data, orange = devices/clients, gray = external).
 - Keep labels short (2-4 words) on edges; put detail in notes (sequence) or node text (HLD).
-- Icons are optional and user supplied (`icon:` path or URL). Do not add third-party logos without the user's say-so.
+- Icons: use `icon: builtin:<name>` (see `diagramkit icons`) for generic pictograms. Brand logos are user supplied (`icon:` path or URL); do not add them without the user's say-so.
 - PNG needs `resvg-py` (installed with the package) or `cairosvg`.

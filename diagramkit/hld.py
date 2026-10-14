@@ -1,7 +1,11 @@
 """HLD / architecture diagrams from a spec: zones on a grid, nodes in a grid inside each zone, auto-routed edges."""
 from __future__ import annotations
 
+import copy
+import math
 import re
+
+from pathlib import Path
 
 from .core import (Diagram, SpecError, arrow_el, base, block_width, box_with_text, get_theme, need, register_icon, text_el,
                    text_width, wrap_text)
@@ -10,7 +14,7 @@ from .route import EdgeIn, Router
 _EDGE = re.compile(r"^\s*([\w.\-]+?)\s*(-->|->)\s*([\w.\-]+)\s*(?::\s*(.*))?$", re.S)
 SIDES = ("top", "right", "bottom", "left")
 
-LAYOUT = {"node_gap_x": 60, "node_gap_y": 64, "zone_gap_x": 120, "zone_gap_y": 110, "zone_pad": 26, "zone_header": 46,
+LAYOUT = {"node_gap_x": 64, "node_gap_y": 72, "zone_gap_x": 120, "zone_gap_y": 110, "zone_pad": 30, "zone_header": 46,
           "margin": 60, "top": 100, "min_node_w": 150, "min_node_h": 56}
 
 
@@ -63,7 +67,9 @@ def _parse_edge(e, k):
     return dict(e)
 
 
-def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
+def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=None) -> Diagram:
+    spec = copy.deepcopy(spec)
+    src = {"kind": "hld", "spec": copy.deepcopy(spec), "base_dir": str(Path(base_dir).resolve())}
     th = get_theme(theme if theme is not None else spec.get("theme"))
     L = {**LAYOUT, **(spec.get("layout") or {})}
     warnings: list[str] = []
@@ -100,20 +106,30 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
         h = n.get("h") or max(L["min_node_h"], len(label.split("\n")) * FS * 1.25 + 30)
         sizes[n["id"]] = (w, h)
 
-    zlayout = {}
-    for z in zones:
+    def make_zlayout(cap=None):
+        """Per-zone node grid. `cap` re-flows zones whose nodes have no explicit row/col to that many columns."""
+        zlayout = {}
+        for z in zones:
+            zl_ = _zone_layout(z, cap)
+            zlayout[z["id"]] = zl_
+        return zlayout
+
+    def _zone_layout(z, cap):
         zn = [n for n in nodes if n["zone"] == z["id"]]
         ncols = int(z.get("cols", 1))
-        pos = _cells(zn, ncols, "node", lambda n: (n.get("row"), n.get("col")), lambda n: int(n.get("colspan", 1)))
+        if cap and not any(n.get("row") is not None or n.get("col") is not None for n in zn):
+            ncols = cap
+        span = {n["id"]: min(int(n.get("colspan", 1)), ncols) for n in zn}
+        pos = _cells(zn, ncols, "node", lambda n: (n.get("row"), n.get("col")), lambda n: span[n["id"]])
         nrows = max([pos[n["id"]][0] for n in zn] + [-1]) + 1
         colw = [0.0] * ncols
         for n in zn:
-            if int(n.get("colspan", 1)) == 1:
+            if span[n["id"]] == 1:
                 colw[pos[n["id"]][1]] = max(colw[pos[n["id"]][1]], sizes[n["id"]][0])
         for c in range(ncols):
             colw[c] = colw[c] or L["min_node_w"]
         for n in zn:  # wide nodes: grow the spanned columns when too narrow
-            sp = int(n.get("colspan", 1))
+            sp = span[n["id"]]
             if sp > 1:
                 c0 = pos[n["id"]][1]
                 have = sum(colw[c0:c0 + sp]) + L["node_gap_x"] * (sp - 1)
@@ -130,27 +146,60 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
         cw = sum(colw) + L["node_gap_x"] * (ncols - 1)
         ch = sum(rowh) + L["node_gap_y"] * max(nrows - 1, 0)
         wz = max(cw + 2 * pad, text_width(str(z.get("label", "")), 15) + 40 if framed else 0)
-        zlayout[z["id"]] = dict(pos=pos, colw=colw, rowh=rowh, pad=pad, head=head, w=wz, h=ch + head + pad, framed=framed, nodes=zn)
+        return dict(pos=pos, colw=colw, rowh=rowh, pad=pad, head=head, w=wz, h=ch + head + pad, framed=framed, nodes=zn, span=span)
+
+    zlayout = make_zlayout()
 
     # ------------------------------------------------------------------ zones on the grid
     zcols = int(spec.get("columns") or min(len(zones), 3) or 1)
-    zpos = _cells(zones, max(zcols, max([int(z.get("col", 0)) + 1 for z in zones] + [1])), "zone",
-                  lambda z: (z.get("row"), z.get("col")), lambda z: 1)
-    ncz = max(c for _, c in zpos.values()) + 1
-    nrz = max(r for r, _ in zpos.values()) + 1
-    cellw, cellh = [0.0] * ncz, [0.0] * nrz
-    for z in zones:
-        r, c = zpos[z["id"]]
-        cellw[c] = max(cellw[c], zlayout[z["id"]]["w"])
-        cellh[r] = max(cellh[r], zlayout[z["id"]]["h"])
+    explicit = _cells(zones, max(zcols, max([int(z.get("col", 0)) + 1 for z in zones] + [1])), "zone",
+                      lambda z: (z.get("row"), z.get("col")), lambda z: 1)
     M = L["margin"]
-    xs = [M + sum(cellw[:c]) + L["zone_gap_x"] * c for c in range(ncz)]
-    ys = [L["top"] + sum(cellh[:r]) + L["zone_gap_y"] * r for r in range(nrz)]
-    gw = xs[-1] + cellw[-1] + M
-    gh = ys[-1] + cellh[-1] + M
+
+    def grid(zp, zl):
+        ncz = max(c for _, c in zp.values()) + 1
+        nrz = max(r for r, _ in zp.values()) + 1
+        cw, ch = [0.0] * ncz, [0.0] * nrz
+        for z in zones:
+            r, c = zp[z["id"]]
+            cw[c] = max(cw[c], zl[z["id"]]["w"])
+            ch[r] = max(ch[r], zl[z["id"]]["h"])
+        xs_ = [M + sum(cw[:c]) + L["zone_gap_x"] * c for c in range(ncz)]
+        ys_ = [L["top"] + sum(ch[:r]) + L["zone_gap_y"] * r for r in range(nrz)]
+        return dict(pos=zp, cellw=cw, cellh=ch, xs=xs_, ys=ys_, gw=xs_[-1] + cw[-1] + M, gh=ys_[-1] + ch[-1] + M)
+
+    orientation = orientation or spec.get("orientation")
+    if orientation not in (None, "auto", "landscape", "portrait"):
+        raise SpecError("orientation must be landscape, portrait or auto")
+    plan = grid(explicit, zlayout)
+    if orientation in ("landscape", "portrait"):
+        lo, hi = (1.3, 2.0) if orientation == "landscape" else (0.55, 0.9)
+        pairs = []
+        for k, e in enumerate(spec.get("edges") or []):
+            d = _parse_edge(e, k)
+            za, zb = nid.get(d.get("from"), {}).get("zone"), nid.get(d.get("to"), {}).get("zone")
+            if za and zb and za != zb:
+                pairs.append((za, zb))
+        cands = [("as-is", explicit), ("transposed", {k: (c, r) for k, (r, c) in explicit.items()})]
+        flat = [{"id": z["id"]} for z in zones]
+        for k in range(1, len(zones) + 1):
+            cands.append((f"flow{k}", _cells(flat, k, "zone", lambda z: (None, None), lambda z: 1)))
+        best = None
+        for cap in [None, 1, 2, 3, 4, 5, 6]:
+            zl_c = make_zlayout(cap)
+            for label, zp in cands:
+                g = grid(zp, zl_c)
+                asp = (g["gw"] + 2 * M) / (g["gh"] + M + 60)
+                dev = 0.0 if lo <= asp <= hi else abs(math.log(asp / (lo if asp < lo else hi)))
+                near = sum(abs(zp[x][0] - zp[y][0]) + abs(zp[x][1] - zp[y][1]) for x, y in pairs)  # short zone hops
+                cost = 3 * dev + 0.02 * near + (0 if label == "as-is" else 0.04) + (0 if cap is None else 0.04)
+                if best is None or cost < best[0] - 1e-9:
+                    best = (cost, g, zl_c)
+        plan, zlayout = best[1], best[2]
+    zpos, cellw, cellh, xs, ys, gw, gh = (plan[k] for k in ("pos", "cellw", "cellh", "xs", "ys", "gw", "gh"))
 
     groups, node_els, label_els = [], [], []
-    rects, soft = {}, []
+    rects, soft, zrects = {}, [], []
     for z in zones:
         zl = zlayout[z["id"]]
         r, c = zpos[z["id"]]
@@ -163,6 +212,7 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
             lw = text_width(lab, 15) + 6
             label_els.append(text_el("gl-" + z["id"], zx + 14, zy + 8, lab, 15, color=stroke, align="left", w=lw, h=20))
             soft.append((zx + 10, zy + 6, zx + 18 + lw, zy + 30))
+            zrects.append((zx, zy, zx + zw, zy + zh))
         # stretch columns to the zone width, center content
         pad = zl["pad"]
         extra = zw - 2 * pad - (sum(zl["colw"]) + L["node_gap_x"] * (len(zl["colw"]) - 1))
@@ -171,14 +221,14 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
         rowy = [zy + zl["head"] + sum(zl["rowh"][:k]) + L["node_gap_y"] * k for k in range(len(zl["rowh"]))]
         for n in zl["nodes"]:
             rr, cc = zl["pos"][n["id"]]
-            sp = int(n.get("colspan", 1))
+            sp = zl["span"][n["id"]]
             wcell = sum(colw[cc:cc + sp]) + L["node_gap_x"] * (sp - 1)
             w, h = sizes[n["id"]]
             w = wcell if not n.get("w") else min(w, wcell)
             x = colx[cc] + (wcell - w) / 2
             y = rowy[rr] + (zl["rowh"][rr] - h) / 2
             nfill, nstroke = th.color(n.get("color", z.get("color", "gray")))
-            icon_id = register_icon(files, n["icon"], base_dir, warnings) if n.get("icon") else None
+            icon_id = register_icon(files, n["icon"], base_dir, warnings, th.text) if n.get("icon") else None
             off = 52 if icon_id else 0
             align = n.get("align", "center")
             node_els += box_with_text(n["id"], x, y, w, h, n["_label"], nfill, nstroke, fs=FS, text_color=th.text,
@@ -202,7 +252,7 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
         via = [tuple(v) for v in d.get("via", [])]
         edges_in.append(EdgeIn(f"{k}", a, b, wrap_text(d.get("label", "")), via, d.get("from_side"), d.get("to_side")))
         raw_edges.append(d)
-    router = Router(rects, (M / 2, L["top"] - 20, gw - M / 2, gh - M / 2 + 10), soft)
+    router = Router(rects, (M / 2, L["top"] - 20, gw - M / 2, gh - M / 2 + 10), soft, zrects)
     routes = router.route_all(edges_in)
 
     edge_els = []
@@ -246,4 +296,4 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".") -> Diagram:
     if spec.get("subtitle"):
         label_els.append(text_el("sub", 0, 42, wrap_text(spec["subtitle"]), 12, color=th.subtext, w=W, h=18))
     els = groups + edge_els + node_els + label_els
-    return Diagram(name, els, W, H, th, files, warnings)
+    return Diagram(name, els, W, H, th, files, warnings, src)

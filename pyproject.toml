@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "diagramkit"
-version = "0.1.0"
+version = "0.2.0"
 description = "Sequence and HLD (architecture) diagrams from JSON/YAML specs. Outputs .excalidraw, .svg, .png, .drawio."
 readme = "README.md"
 license = {text = "MIT"}
@@ -21,3 +21,6 @@ diagramkit = "diagramkit.cli:main"
 
 [tool.setuptools]
 packages = ["diagramkit"]
+
+[tool.setuptools.package-data]
+diagramkit = ["icons/*.svg", "icons/README.txt"]

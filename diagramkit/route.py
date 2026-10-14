@@ -16,9 +16,12 @@ H_SIDES = ("left", "right")
 OUT = {"top": (0, -1), "right": (1, 0), "bottom": (0, 1), "left": (-1, 0)}
 SWAP_SIDE = {"left": "top", "right": "bottom", "top": "left", "bottom": "right"}
 
-NODE_MARGIN = 6        # clearance kept around boxes that are not the edge's own endpoints
-PORT_INSET = 14        # ports stay this far from the box corners
-STUB = 12              # minimum straight run leaving/entering a box
+NODE_MARGIN = 8        # hard clearance around boxes that are not the edge's own endpoints (violation = warning)
+SOFT_MARGIN = 22       # preferred clearance: closer routes are penalized
+PORT_INSET = 26        # ports stay this far from the box corners (shrinks on narrow boxes)
+STUB = 22              # minimum straight run leaving/entering a box
+LANE = 14              # spacing between parallel candidate channels
+ZONE_CLEAR = 14        # preferred distance between a parallel line and a zone border
 
 
 @dataclass
@@ -109,8 +112,8 @@ def _overlap_and_cross(p, q, other):
 
 
 class Router:
-    def __init__(self, nodes: dict, bounds: Rect, soft: list | None = None):
-        self.nodes, self.bounds, self.soft = nodes, bounds, soft or []
+    def __init__(self, nodes: dict, bounds: Rect, soft: list | None = None, zones: list | None = None):
+        self.nodes, self.bounds, self.soft, self.zones = nodes, bounds, soft or [], zones or []
         self.done: list[Route] = []
 
     # ---- geometry of candidates
@@ -122,11 +125,11 @@ class Router:
         mid = (lo + hi) / 2
         out = [mid]
         k = 1
-        while mid + 10 * k <= hi or mid - 10 * k >= lo:
-            if mid - 10 * k >= lo:
-                out.append(mid - 10 * k)
-            if mid + 10 * k <= hi:
-                out.append(mid + 10 * k)
+        while mid + LANE * k <= hi or mid - LANE * k >= lo:
+            if mid - LANE * k >= lo:
+                out.append(mid - LANE * k)
+            if mid + LANE * k <= hi:
+                out.append(mid + LANE * k)
             k += 1
             if k > 14:
                 break
@@ -145,7 +148,7 @@ class Router:
                         res.append([pa, (mx, pa[1]), (mx, pb[1]), pb])
         else:  # same direction: U shape around
             far = max(pa[0], pb[0]) if oa > 0 else min(pa[0], pb[0])
-            for d in range(22, 22 + 16 * 14, 14):
+            for d in range(40, 40 + 16 * LANE, LANE):
                 ex = far + oa * d
                 res.append([pa, (ex, pa[1]), (ex, pb[1]), pb])
         return res
@@ -191,6 +194,11 @@ class Router:
             for r in self.soft:
                 if seg_hits(p, q, r, 0):
                     s += 150
+            for nid, r in self.nodes.items():  # prefer breathing room around other boxes
+                if nid not in (ea, eb) and seg_hits(p, q, r, SOFT_MARGIN):
+                    s += 90
+            for z in self.zones:  # avoid hugging a zone border
+                s += 60 * _hugs(p, q, z)
         if use_done and self.done:
             other = [sg for rt in self.done for sg in segs(rt.pts)]
             for p, q in segs(pts):
@@ -237,8 +245,8 @@ class Router:
         pa, pb = list(side_point(ra, sa, 0.5)), list(side_point(rb, sb, 0.5))
         if (sa in H_SIDES) == (sb in H_SIDES) and OUT[sa] == tuple(-v for v in OUT[sb]):
             ax = 1 if sa in H_SIDES else 0
-            lo = max(ra[ax], rb[ax]) + PORT_INSET
-            hi = min(ra[ax + 2], rb[ax + 2]) - PORT_INSET
+            lo = max(ra[ax], rb[ax]) + PORT_INSET * 0.6
+            hi = min(ra[ax + 2], rb[ax + 2]) - PORT_INSET * 0.6
             if lo <= hi:
                 pa[ax] = pb[ax] = (lo + hi) / 2
         return tuple(pa), tuple(pb)
@@ -349,7 +357,8 @@ class Router:
             axis = 0 if side in ("top", "bottom") else 1
             items.sort(key=lambda it: (it[2][axis], it[0]))
             lo, hi = (r[0], r[2]) if axis == 0 else (r[1], r[3])
-            lo, hi = lo + PORT_INSET, hi - PORT_INSET
+            ins = min(PORT_INSET, (hi - lo) * 0.22)
+            lo, hi = lo + ins, hi - ins
             n = len(items)
             for k, (eid, end, _) in enumerate(items):
                 c = (lo + hi) / 2 if n == 1 else lo + (hi - lo) * k / (n - 1)
@@ -373,7 +382,7 @@ class Router:
             ra, rb = self.nodes[e.a], self.nodes[e.b]
             lo_a, hi_a = (ra[1], ra[3]) if ax == 1 else (ra[0], ra[2])
             lo_b, hi_b = (rb[1], rb[3]) if ax == 1 else (rb[0], rb[2])
-            lo, hi = max(lo_a, lo_b) + PORT_INSET, min(hi_a, hi_b) - PORT_INSET
+            lo, hi = max(lo_a, lo_b) + PORT_INSET * 0.6, min(hi_a, hi_b) - PORT_INSET * 0.6
             if lo > hi:
                 continue
             na, nb = count[(e.id, "a")], count[(e.id, "b")]
@@ -427,6 +436,19 @@ class Router:
         rt.label_box, rt.label_pos = best[1], best[2]
         if best[0] >= 1000:
             rt.problems.append(f"label '{lab}' of edge {rt.edge.a}->{rt.edge.b} overlaps a box or another label")
+
+
+def _hugs(p, q, z: Rect) -> int:
+    """1 if segment p-q runs parallel to a zone border within ZONE_CLEAR (and along it), else 0."""
+    if abs(p[1] - q[1]) < 0.05:
+        lo, hi = sorted((p[0], q[0]))
+        if hi < z[0] or lo > z[2]:
+            return 0
+        return int(any(abs(p[1] - y) < ZONE_CLEAR for y in (z[1], z[3])) and hi - lo > 2)
+    lo, hi = sorted((p[1], q[1]))
+    if hi < z[1] or lo > z[3]:
+        return 0
+    return int(any(abs(p[0] - x) < ZONE_CLEAR for x in (z[0], z[2])) and hi - lo > 2)
 
 
 def _rect_overlap(a: Rect, b: Rect, m: float = 0) -> bool:
