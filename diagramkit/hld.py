@@ -171,6 +171,13 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
                       lambda z: (z.get("row"), z.get("col")), lambda z: 1)
     M = L["margin"]
 
+    zedges = []  # (zone a, zone b) of every edge between different zones: sizes the gutters they pass through
+    for k, e in enumerate(spec.get("edges") or []):
+        d = _parse_edge(e, k)
+        za, zb = nid.get(d.get("from"), {}).get("zone"), nid.get(d.get("to"), {}).get("zone")
+        if za and zb and za != zb:
+            zedges.append((za, zb))
+
     def grid(zp, zl):
         ncz = max(c for _, c in zp.values()) + 1
         nrz = max(r for r, _ in zp.values()) + 1
@@ -179,8 +186,26 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
             r, c = zp[z["id"]]
             cw[c] = max(cw[c], zl[z["id"]]["w"])
             ch[r] = max(ch[r], zl[z["id"]]["h"])
-        xs_ = [M + sum(cw[:c]) + L["zone_gap_x"] * c for c in range(ncz)]
-        ys_ = [L["top"] + sum(ch[:r]) + L["zone_gap_y"] * r for r in range(nrz)]
+        # a gutter grows with the number of edges that have to run through it (one lane per edge), never below the base gap
+        cross_c, cross_r = [0] * max(ncz - 1, 0), [0] * max(nrz - 1, 0)
+        for za, zb in zedges:
+            (ra, ca), (rb, cb) = zp[za], zp[zb]
+            if ra == rb and ca == cb:
+                continue
+            if ca == cb:  # same column, different rows: the edge usually detours through a side gutter (prefer the right one)
+                if ncz > 1:
+                    cross_c[ca if ca < ncz - 1 else ca - 1] += 1
+                continue
+            if ra != rb:  # diagonal: a vertical run in the column gutter and a horizontal run in the row gutter
+                for r in range(min(ra, rb), max(ra, rb)):
+                    cross_r[r] += 1
+            for c in range(min(ca, cb), max(ca, cb)):
+                cross_c[c] += 1  # same row: only crosses; diagonal: vertical run through the gutter
+        lane = L.get("lane", 14)
+        gx = [max(L["zone_gap_x"], lane * min(n, 8) + 36) for n in cross_c]
+        gy = [max(L["zone_gap_y"], lane * min(n, 8) + 36) for n in cross_r]
+        xs_ = [M + sum(cw[:c]) + sum(gx[:c]) for c in range(ncz)]
+        ys_ = [L["top"] + sum(ch[:r]) + sum(gy[:r]) for r in range(nrz)]
         return dict(pos=zp, cellw=cw, cellh=ch, xs=xs_, ys=ys_, gw=xs_[-1] + cw[-1] + M, gh=ys_[-1] + ch[-1] + M)
 
     orientation = orientation or spec.get("orientation")

@@ -241,3 +241,16 @@ def test_hld_icon_none_and_icons_none_disable_auto(monkeypatch, tmp_path):
     assert imgs == {"img-a"}
     d2 = hld.build({**spec, "icons": "none"}, "t")
     assert not [e for e in d2.elements if e["type"] == "image"]
+
+
+def test_hld_gutter_grows_with_edge_count():
+    def gap(n_edges):
+        nodes = [{"id": f"a{i}", "zone": "l", "label": f"A{i}"} for i in range(n_edges)]
+        nodes += [{"id": f"b{i}", "zone": "r", "label": f"B{i}"} for i in range(n_edges)]
+        edges = [{"from": f"a{i}", "to": f"b{(i + 1) % n_edges}"} for i in range(n_edges)]
+        spec = {"title": "t", "columns": 2, "zones": [{"id": "l", "label": "L", "row": 0, "col": 0}, {"id": "r", "label": "R", "row": 1, "col": 1}],
+                "nodes": nodes, "edges": edges}
+        g = {e["id"]: e for e in hld.build(spec, "t").elements if e["id"].startswith("g-")}
+        return g["g-r"]["x"] - (g["g-l"]["x"] + g["g-l"]["width"])
+
+    assert gap(6) > gap(1) + 40  # six diagonal edges need more room than one
