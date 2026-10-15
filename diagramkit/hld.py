@@ -14,7 +14,7 @@ from .route import EdgeIn, Router, add_jumps
 _EDGE = re.compile(r"^\s*([\w.\-]+?)\s*(-->|->)\s*([\w.\-]+)\s*(?::\s*(.*))?$", re.S)
 SIDES = ("top", "right", "bottom", "left")
 
-LAYOUT = {"node_gap_x": 64, "node_gap_y": 72, "node_gap_y_tight": 36, "zone_gap_x": 120, "zone_gap_y": 110, "zone_pad": 30, "zone_header": 46,
+LAYOUT = {"node_gap_x": 52, "node_gap_y": 72, "node_gap_y_tight": 36, "zone_gap_x": 90, "zone_gap_y": 80, "zone_pad": 24, "zone_header": 40,
           "margin": 60, "top": 100, "min_node_w": 150, "min_node_h": 56}
 
 

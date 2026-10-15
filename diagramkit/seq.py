@@ -65,7 +65,7 @@ class Seq:
                                 strokeColor="transparent"))
         self.labels.append(text_el("dvt-" + i, 40, self.y + 4, text, 13, color=th.divider_text, align="left",
                                    w=text_width(text, 13) + 6, h=18))
-        self.y += 52
+        self.y += 36
 
     def msg(self, a, b, label, dashed=False):
         th, i = self.theme, self._id("m")
@@ -75,8 +75,8 @@ class Seq:
         lines = label.split("\n")
         lw = block_width(label, 11) + 12
         lh = 15 * len(lines) + 2
-        if self.last == "note":  # the label sits above the arrow; keep it clear of the note above
-            self.y = max(self.y, self.note_bottom + lh + 9)
+        if a != b:  # the label sits above the arrow: reserve its room here instead of as a fixed trailing gap
+            self.y += lh + 4
             y = self.y
         self.last = "msg"
         if a == b:  # self message: small loop to the right
@@ -85,13 +85,13 @@ class Seq:
             lx = xa + 52
             self.labels.append(base("rectangle", "lb-" + i, lx - 2, y - 2, lw, lh, backgroundColor=th.bg, strokeColor="transparent"))
             self.labels.append(text_el("el-" + i, lx, y - 1, label, 11, color=th.msg_text, align="left", w=lw - 8, h=lh))
-            self.y += 22 + 15 * len(lines) + 18
+            self.y += max(22, lh) + 14
             return
         self.edges.append(arrow_el("e-" + i, [(xa, y), (xb, y)], th.edge, dashed=dashed))
         cx = (xa + xb) / 2
         self.labels.append(base("rectangle", "lb-" + i, cx - lw / 2, y - lh - 3, lw, lh, backgroundColor=th.bg, strokeColor="transparent"))
         self.labels.append(text_el("el-" + i, cx - lw / 2, y - lh - 2, label, 11, color=th.msg_text, w=lw, h=lh))
-        self.y += 18 + 15 * len(lines) + 14
+        self.y += 12
 
     def note(self, over, text, color="yellow", width=None):
         th, i = self.theme, self._id("nt")
@@ -101,21 +101,19 @@ class Seq:
         lines = text.split("\n")
         w = width or max(210, block_width(text, 11) + 28, (max(xs) - min(xs)) + 60)
         h = 18 + 15 * len(lines)
-        if self.last == "msg":  # a message already leaves a trailing gap; pull the note up into it
-            self.y -= 10
         self.last = "note"
         self.note_boxes.append((self.y, cx - w / 2, cx + w / 2))
         self.note_bottom = self.y + h
         fill, stroke = th.color(color)
         self.nodes += box_with_text(i, cx - w / 2, self.y, w, h, text, fill, stroke, fs=11, text_color=th.text, stroke_w=1,
                                     prefix="n-", tprefix="t-")
-        self.y += h + 22
+        self.y += h + 8
 
     def frame_start(self, label, over, color="gray", levels=1):
         self.last = None
-        self.y += 6
+        self.y += 4
         self.frames.append((label, over, color, self.y, levels))
-        self.y += 46
+        self.y += 28
 
     def frame_end(self):
         th = self.theme
@@ -123,7 +121,7 @@ class Seq:
         xs = [self._x(o) for o in over]
         pad = min(140, self.gap * 0.5 - 8) + 10 * (levels - 1)
         x1, x2 = min(xs) - pad, max(xs) + pad
-        y2 = self.y - 6
+        y2 = self.y + (6 if self.last == "note" else 2)  # keep clear of the last arrow or note above the border
         for ny, nx1, nx2 in self.note_boxes:  # grow the frame so notes never stick out of it
             if y0 <= ny < y2:
                 x1, x2 = min(x1, nx1 - 12), max(x2, nx2 + 12)
@@ -136,7 +134,7 @@ class Seq:
         self.labels.append(base("rectangle", "glb-" + i, x1 + 8, y0 + 5, lw, 20, backgroundColor=th.bg, strokeColor="transparent"))
         self.labels.append(text_el("gl-" + i, x1 + 10, y0 + 6, label, 12, color=stroke, align="left",
                                    w=text_width(label, 12) + 6, h=18))
-        self.y += 18
+        self.y = y2 + 14
 
     def build(self, name) -> Diagram:
         th = self.theme
