@@ -261,23 +261,28 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
         extra = zw - 2 * pad - (sum(zl["colw"]) + L["node_gap_x"] * (len(zl["colw"]) - 1))
         colw = [w + extra / len(zl["colw"]) for w in zl["colw"]]
         colx = [zx + pad + sum(colw[:k]) + L["node_gap_x"] * k for k in range(len(colw))]
-        # a zone shorter than its grid cell: spread rows over the free height (single row: center it) so no band stays empty
-        free = zh - zl["head"] - zl["pad"] - sum(zl["rowh"]) - sum(zl["rowgap"])
-        nr = len(zl["rowh"])
+        # a zone shorter than its grid cell: grow the node rows first (up to +60%), spread what is left (single row: center it)
+        rowh = list(zl["rowh"])
+        nr = len(rowh)
+        free = zh - zl["head"] - zl["pad"] - sum(rowh) - sum(zl["rowgap"])
+        vgap = voff = 0.0
         if free > 1 and L.get("fill_rows", True) and zl["framed"]:
-            vgap = free / (nr - 1) if nr > 1 else 0.0
-            voff = 0.0 if nr > 1 else free / 2
-        else:
-            vgap, voff = 0.0, 0.0
-        rowy = [zy + zl["head"] + voff + sum(zl["rowh"][:k]) + sum(zl["rowgap"][:k]) + vgap * k for k in range(nr)]
+            grow = min(free / nr, 0.6 * (sum(rowh) / nr))
+            rowh = [h + grow for h in rowh]
+            free -= grow * nr
+            if free > 1:
+                vgap, voff = (free / (nr - 1), 0.0) if nr > 1 else (0.0, free / 2)
+        rowy = [zy + zl["head"] + voff + sum(rowh[:k]) + sum(zl["rowgap"][:k]) + vgap * k for k in range(nr)]
         for n in zl["nodes"]:
             rr, cc = zl["pos"][n["id"]]
             sp = zl["span"][n["id"]]
             wcell = sum(colw[cc:cc + sp]) + L["node_gap_x"] * (sp - 1)
             w, h = sizes[n["id"]]
+            if not n.get("h"):
+                h = max(h, rowh[rr])  # grown row: the box fills it
             w = wcell if not n.get("w") else min(w, wcell)
             x = colx[cc] + (wcell - w) / 2
-            y = rowy[rr] + (zl["rowh"][rr] - h) / 2
+            y = rowy[rr] + (rowh[rr] - h) / 2
             nfill, nstroke = th.color(n.get("color", z.get("color", "gray")))
             icon_id = register_icon(files, n["icon"], base_dir, warnings, th.text) if n.get("icon") else None
             off = 52 if icon_id else 0
