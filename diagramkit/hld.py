@@ -14,7 +14,7 @@ from .route import EdgeIn, Router, add_jumps
 _EDGE = re.compile(r"^\s*([\w.\-]+?)\s*(-->|->)\s*([\w.\-]+)\s*(?::\s*(.*))?$", re.S)
 SIDES = ("top", "right", "bottom", "left")
 
-LAYOUT = {"node_gap_x": 64, "node_gap_y": 72, "zone_gap_x": 120, "zone_gap_y": 110, "zone_pad": 30, "zone_header": 46,
+LAYOUT = {"node_gap_x": 64, "node_gap_y": 72, "node_gap_y_tight": 36, "zone_gap_x": 120, "zone_gap_y": 110, "zone_pad": 30, "zone_header": 46,
           "margin": 60, "top": 100, "min_node_w": 150, "min_node_h": 56}
 
 
@@ -140,13 +140,22 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
         for n in zn:
             r = pos[n["id"]][0]
             rowh[r] = max(rowh[r], sizes[n["id"]][1])
+        # rows joined by an edge keep the full gap (room for the line and its label); unlinked rows pack tighter
+        linked = set()
+        for k, e in enumerate(spec.get("edges") or []):
+            d = _parse_edge(e, k)
+            a, b = d.get("from"), d.get("to")
+            if a in pos and b in pos:
+                ra, rb = sorted((pos[a][0], pos[b][0]))
+                linked.update(range(ra, rb))
+        rowgap = [L["node_gap_y"] if r in linked else min(L["node_gap_y"], L["node_gap_y_tight"]) for r in range(max(nrows - 1, 0))]
         framed = z.get("frame", True)
         pad = L["zone_pad"] if framed else 0
         head = L["zone_header"] if framed else 0
         cw = sum(colw) + L["node_gap_x"] * (ncols - 1)
-        ch = sum(rowh) + L["node_gap_y"] * max(nrows - 1, 0)
+        ch = sum(rowh) + sum(rowgap)
         wz = max(cw + 2 * pad, text_width(str(z.get("label", "")), 15) + 40 if framed else 0)
-        return dict(pos=pos, colw=colw, rowh=rowh, pad=pad, head=head, w=wz, h=ch + head + pad, framed=framed, nodes=zn, span=span)
+        return dict(pos=pos, colw=colw, rowh=rowh, rowgap=rowgap, pad=pad, head=head, w=wz, h=ch + head + pad, framed=framed, nodes=zn, span=span)
 
     zlayout = make_zlayout()
 
@@ -218,7 +227,7 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
         extra = zw - 2 * pad - (sum(zl["colw"]) + L["node_gap_x"] * (len(zl["colw"]) - 1))
         colw = [w + extra / len(zl["colw"]) for w in zl["colw"]]
         colx = [zx + pad + sum(colw[:k]) + L["node_gap_x"] * k for k in range(len(colw))]
-        rowy = [zy + zl["head"] + sum(zl["rowh"][:k]) + L["node_gap_y"] * k for k in range(len(zl["rowh"]))]
+        rowy = [zy + zl["head"] + sum(zl["rowh"][:k]) + sum(zl["rowgap"][:k]) for k in range(len(zl["rowh"]))]
         for n in zl["nodes"]:
             rr, cc = zl["pos"][n["id"]]
             sp = zl["span"][n["id"]]

@@ -159,3 +159,15 @@ def test_seq_frame_contains_wide_note():
 def test_seq_frame_label_has_background_plate():
     d = seq.build({"participants": ["a", "b"], "steps": [{"frame": "loop  x", "steps": ["a->b: hi"]}]}, "t")
     assert any(e["id"].startswith("glb-") for e in d.elements)
+
+
+def test_hld_unlinked_rows_pack_tighter_than_linked():
+    spec = {"zones": [{"id": "z", "label": "Z"}],
+            "nodes": [{"id": n, "zone": "z", "label": n} for n in "abcd"],
+            "edges": ["a->b: linked"]}  # a-b linked, b-c and c-d not
+    d = hld.build(spec, "t")
+    y = {e["id"]: e["y"] for e in d.elements if e["id"] in ("n-a", "n-b", "n-c", "n-d")}
+    h = {e["id"]: e["height"] for e in d.elements if e["id"] in ("n-a", "n-b", "n-c", "n-d")}
+    linked_gap = y["n-b"] - (y["n-a"] + h["n-a"])
+    tight_gap = y["n-d"] - (y["n-c"] + h["n-c"])
+    assert tight_gap < linked_gap
