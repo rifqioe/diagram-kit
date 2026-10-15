@@ -41,6 +41,9 @@ class Seq:
         self.n = 0
         self.frames = []
         self.inset = {}  # frame id -> extra horizontal padding for nested frames
+        self.note_boxes = []  # (y, x1, x2) of every note, so frames can grow to contain them
+        self.last = None  # kind of the previous step: 'msg', 'note' or None
+        self.note_bottom = 0
 
     def _id(self, p):
         self.n += 1
@@ -57,6 +60,7 @@ class Seq:
 
     def divider(self, text):
         th, i = self.theme, self._id("dv")
+        self.last = None
         self.groups.append(base("rectangle", "dvr-" + i, 30, self.y, self.W - 60, 26, backgroundColor=th.divider_bg,
                                 strokeColor="transparent"))
         self.labels.append(text_el("dvt-" + i, 40, self.y + 4, text, 13, color=th.divider_text, align="left",
@@ -71,6 +75,10 @@ class Seq:
         lines = label.split("\n")
         lw = block_width(label, 11) + 12
         lh = 15 * len(lines) + 2
+        if self.last == "note":  # the label sits above the arrow; keep it clear of the note above
+            self.y = max(self.y, self.note_bottom + lh + 9)
+            y = self.y
+        self.last = "msg"
         if a == b:  # self message: small loop to the right
             pts = [(xa, y), (xa + 46, y), (xa + 46, y + 22), (xa, y + 22)]
             self.edges.append(arrow_el("e-" + i, pts, th.edge, dashed=dashed))
@@ -93,12 +101,18 @@ class Seq:
         lines = text.split("\n")
         w = width or max(210, block_width(text, 11) + 28, (max(xs) - min(xs)) + 60)
         h = 18 + 15 * len(lines)
+        if self.last == "msg":  # a message already leaves a trailing gap; pull the note up into it
+            self.y -= 10
+        self.last = "note"
+        self.note_boxes.append((self.y, cx - w / 2, cx + w / 2))
+        self.note_bottom = self.y + h
         fill, stroke = th.color(color)
         self.nodes += box_with_text(i, cx - w / 2, self.y, w, h, text, fill, stroke, fs=11, text_color=th.text, stroke_w=1,
                                     prefix="n-", tprefix="t-")
         self.y += h + 22
 
     def frame_start(self, label, over, color="gray", levels=1):
+        self.last = None
         self.y += 6
         self.frames.append((label, over, color, self.y, levels))
         self.y += 46
@@ -110,10 +124,16 @@ class Seq:
         pad = min(140, self.gap * 0.5 - 8) + 10 * (levels - 1)
         x1, x2 = min(xs) - pad, max(xs) + pad
         y2 = self.y - 6
+        for ny, nx1, nx2 in self.note_boxes:  # grow the frame so notes never stick out of it
+            if y0 <= ny < y2:
+                x1, x2 = min(x1, nx1 - 12), max(x2, nx2 + 12)
+        self.last = None
         i = self._id("fr")
         stroke = th.color(color)[1]
         self.groups.append(base("rectangle", "g-" + i, x1, y0, x2 - x1, y2 - y0, strokeColor=stroke, strokeStyle="dashed",
                                 roundness={"type": 3}))
+        lw = text_width(label, 12) + 10  # white plate so lifelines do not strike through the label
+        self.labels.append(base("rectangle", "glb-" + i, x1 + 8, y0 + 5, lw, 20, backgroundColor=th.bg, strokeColor="transparent"))
         self.labels.append(text_el("gl-" + i, x1 + 10, y0 + 6, label, 12, color=stroke, align="left",
                                    w=text_width(label, 12) + 6, h=18))
         self.y += 18

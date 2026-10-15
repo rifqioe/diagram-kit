@@ -143,3 +143,19 @@ def test_add_jumps_geometry():
     assert b == [(100, 0), (100, 100)]
     assert len(a) > 4 and min(p[1] for p in a) < 50  # arc rises above the line
     assert a[0] == (0, 50) and a[-1] == (200, 50)
+
+
+def test_seq_frame_contains_wide_note():
+    spec = {"participants": ["a", "b"], "steps": [
+        {"frame": "alt  x", "steps": [
+            "a->b: hi",
+            {"note": "a very long note text that is wider than the frame padding allows for sure", "over": ["a"]}]}]}
+    d = seq.build(spec, "t")
+    frame = next(e for e in d.elements if e["id"].startswith("g-fr"))
+    note = next(e for e in d.elements if e["id"].startswith("n-nt"))
+    assert frame["x"] <= note["x"] and note["x"] + note["width"] <= frame["x"] + frame["width"]
+
+
+def test_seq_frame_label_has_background_plate():
+    d = seq.build({"participants": ["a", "b"], "steps": [{"frame": "loop  x", "steps": ["a->b: hi"]}]}, "t")
+    assert any(e["id"].startswith("glb-") for e in d.elements)
