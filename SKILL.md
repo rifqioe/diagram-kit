@@ -21,6 +21,15 @@ Install once: `pip install <path to this repo>` (or `python -m diagramkit` from 
    `diagramkit convert out/x.excalidraw portrait`.
 5. Give the user the files from `out/` (`.excalidraw` opens in excalidraw.com, `.drawio` in diagrams.net).
 
+## Defaults (use them on the first render)
+
+Do not set `layout`, `icon` or `columns` tuning up front. The defaults are already compact, and nodes get an icon automatically:
+real product logos for known products (nginx, postgres, redis, kafka, grafana, keycloak, dify, ...), generic pictograms otherwise.
+Write only zones, nodes (with labels that name the real product, e.g. "PostgreSQL", "NGINX") and edges, render, then look at the PNG.
+Only add `icon:`, `layout:`, `row`/`col` or `from_side` when the first render needs it. Opt out: `icon: none`, `icons: none`.
+For a layout without empty bands: pin every zone with `row`/`col`, give each row zones of similar height (same node count), and
+use `colspan` for a single wide node. Short zones stretch to the row height by themselves.
+
 ## Spec cheat sheet
 
 Sequence: `participants` (id, label, color) + `steps`:
@@ -39,5 +48,5 @@ Colors: blue, green, orange, purple, gray, yellow, red. Themes: `-t default|mono
 - Use neutral, generic names unless the user supplies real ones. Never invent customer or company names.
 - One role per color (e.g. blue = existing, green = new, purple = data, orange = devices/clients, gray = external).
 - Keep labels short (2-4 words) on edges; put detail in notes (sequence) or node text (HLD).
-- Icons: use `icon: builtin:<name>` (see `diagramkit icons`) for generic pictograms. Real logos: `icon: path/to/logo.svg` or a URL; `examples/logos/` has five sample logos (see NOTICE.md). Do not bundle new brand logos into the package without the user's say-so.
+- Icons are automatic (see Defaults). To override: `icon: builtin:<name>` (see `diagramkit icons`) for generic pictograms. Real logos: `icon: path/to/logo.svg` or a URL; `examples/logos/` has five sample logos (see NOTICE.md). Do not bundle new brand logos into the package without the user's say-so.
 - PNG needs `resvg-py` (installed with the package) or `cairosvg`.

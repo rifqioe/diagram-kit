@@ -88,6 +88,9 @@ legend: {blue: "Existing", green: "New"}   # optional; or a list of {color, labe
   (`cols` columns). `colspan` makes a node span several columns.
 - Colors: palette name, `"#rrggbb"` (fill is derived) or `[fill, stroke]`.
 - Icons: `icon:` is a path (relative to the spec file) or an `http(s)` URL (svg, png, jpg). A failed icon is a warning, not an error.
+- Compact by default: tight gaps, a zone shorter than its grid cell spreads its rows over the cell (`layout: {fill_rows: false}` turns
+  that off), and facing boxes with only a narrow gap still get a direct line. A spec where every zone has `row`/`col` is never re-flowed
+  by `--orientation`; leave positions open to let diagramkit pick the grid.
 - Line hops: where a horizontal edge crosses another edge, it bends into a small arc (`jumps: arc`, default). Set `jumps: none`
   to turn it off, `jump_size: 7` to change the radius. In `.drawio` this maps to draw.io's own `jumpStyle=arc`.
 - Routing: edges keep clear of boxes and zone borders where space allows. Each edge picks the side pair with the cleanest route (straight, L, Z or U). Edges that share a box side
@@ -95,6 +98,12 @@ legend: {blue: "Existing", green: "New"}   # optional; or a list of {color, labe
   any label that overlaps a box; fix with `from_side`/`to_side` or `via`.
 
 ## Icons
+
+**Automatic by default.** A node without `icon` gets one chosen from its label: a real product logo when the label names a known
+product (nginx, postgres, redis, kafka, grafana, keycloak, react, dify, ...), otherwise a built-in pictogram matched on words such as
+`database`, `user`, `gateway`, `queue`. Logos come from the Simple Icons CDN on first use and are cached under
+`~/.cache/diagramkit/logos` (`DIAGRAMKIT_OFFLINE=1` = cache only; offline or unknown names fall back to a pictogram, silently).
+Opt out with `icon: none` on a node or `icons: none` in the spec. An explicit `icon:` always wins.
 
 ```yaml
 nodes:

@@ -20,6 +20,7 @@ NODE_MARGIN = 8        # hard clearance around boxes that are not the edge's own
 SOFT_MARGIN = 22       # preferred clearance: closer routes are penalized
 PORT_INSET = 26        # ports stay this far from the box corners (shrinks on narrow boxes)
 STUB = 22              # minimum straight run leaving/entering a box
+MIN_GAP = 12           # narrowest gap between facing boxes that still gets a direct line
 LANE = 14              # spacing between parallel candidate channels
 ZONE_CLEAR = 14        # preferred distance between a parallel line and a zone border
 
@@ -140,12 +141,15 @@ class Router:
         oa, ob = OUT[sa][0], OUT[sb][0]
         res = []
         if oa == -ob:  # facing sides
-            if (pb[0] - pa[0]) * oa > 2 * STUB - 1:
+            gap = (pb[0] - pa[0]) * oa
+            if gap > MIN_GAP:  # a straight line needs only room for the arrowhead
                 if abs(pa[1] - pb[1]) < 0.5:
                     res.append([pa, pb])
-                else:
+                elif gap > 2 * STUB - 1:
                     for mx in self._chan(pa[0] + oa * STUB, pb[0] + ob * STUB):
                         res.append([pa, (mx, pa[1]), (mx, pb[1]), pb])
+                else:  # narrow gap: one Z bend in the middle
+                    res.append([pa, ((pa[0] + pb[0]) / 2, pa[1]), ((pa[0] + pb[0]) / 2, pb[1]), pb])
         else:  # same direction: U shape around
             far = max(pa[0], pb[0]) if oa > 0 else min(pa[0], pb[0])
             for d in range(40, 40 + 16 * LANE, LANE):

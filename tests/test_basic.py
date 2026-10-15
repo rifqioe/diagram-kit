@@ -171,3 +171,73 @@ def test_hld_unlinked_rows_pack_tighter_than_linked():
     linked_gap = y["n-b"] - (y["n-a"] + h["n-a"])
     tight_gap = y["n-d"] - (y["n-c"] + h["n-c"])
     assert tight_gap < linked_gap
+
+
+def _node_boxes(d):
+    return {e["id"][2:]: e for e in d.elements if e["type"] == "rectangle" and e["id"].startswith("n-")}
+
+
+def test_hld_narrow_gap_edge_is_straight():
+    spec = {"title": "t", "layout": {"node_gap_x": 24},
+            "zones": [{"id": "z", "label": "Z", "cols": 2}],
+            "nodes": [{"id": "a", "zone": "z", "label": "A"}, {"id": "b", "zone": "z", "label": "B"}],
+            "edges": [{"from": "a", "to": "b", "from_side": "right", "to_side": "left"}]}
+    d = hld.build(spec, "t")
+    assert d.warnings == []
+    arrow = next(e for e in d.elements if e["type"] == "arrow")
+    assert len(arrow["customData"]["route"]) == 2  # direct line, no U-shape detour
+
+
+def test_hld_fully_pinned_zones_are_not_reflowed():
+    zones = [{"id": f"z{i}", "label": f"Z{i}", "row": 0, "col": i} for i in range(5)]
+    nodes = [{"id": f"n{i}", "zone": f"z{i}", "label": f"N{i}"} for i in range(5)]
+    d = hld.build({"title": "t", "columns": 5, "zones": zones, "nodes": nodes}, "t", orientation="portrait")
+    ys = {round(b["y"]) for b in _node_boxes(d).values()}
+    assert len(ys) == 1  # all five zones stay in one row even though portrait was requested
+
+
+def test_hld_short_zone_fills_its_grid_cell():
+    spec = {"title": "t", "columns": 2,
+            "zones": [{"id": "tall", "label": "Tall", "row": 0, "col": 0}, {"id": "short", "label": "Short", "row": 0, "col": 1}],
+            "nodes": [{"id": "a", "zone": "tall", "label": "A"}, {"id": "b", "zone": "tall", "label": "B"},
+                      {"id": "c", "zone": "tall", "label": "C"}, {"id": "s", "zone": "short", "label": "S"}]}
+    d = hld.build(spec, "t")
+    boxes = _node_boxes(d)
+    groups = {e["id"]: e for e in d.elements if e["id"].startswith("g-")}
+    g = groups["g-short"]
+    s = boxes["s"]
+    top_gap = s["y"] - g["y"]
+    bottom_gap = (g["y"] + g["height"]) - (s["y"] + s["height"])
+    assert abs((top_gap - hld.LAYOUT["zone_header"]) - (bottom_gap - hld.LAYOUT["zone_pad"])) < 2  # centered between header and bottom padding
+
+
+def test_auto_icon_falls_back_to_builtin_when_offline(monkeypatch, tmp_path):
+    from diagramkit import logos
+    monkeypatch.setenv("DIAGRAMKIT_OFFLINE", "1")
+    monkeypatch.setattr(logos, "CACHE", tmp_path)
+    assert logos.auto_icon("Primary database") == "builtin:database"
+    assert logos.auto_icon("Shopper") == "builtin:user"
+    assert logos.auto_icon("Quantum flux") is None
+    assert logos.logo_slug("NGINX API Gateway") == "nginx"
+    assert logos.logo_slug("PostgreSQL\npg_vector") == "postgresql"
+
+
+def test_auto_icon_uses_cached_logo(monkeypatch, tmp_path):
+    from diagramkit import logos
+    monkeypatch.setenv("DIAGRAMKIT_OFFLINE", "1")
+    monkeypatch.setattr(logos, "CACHE", tmp_path)
+    (tmp_path / "redis.svg").write_text('<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"/>')
+    assert logos.auto_icon("Redis cache").endswith("redis.svg")
+
+
+def test_hld_icon_none_and_icons_none_disable_auto(monkeypatch, tmp_path):
+    from diagramkit import logos
+    monkeypatch.setenv("DIAGRAMKIT_OFFLINE", "1")
+    monkeypatch.setattr(logos, "CACHE", tmp_path)
+    spec = {"title": "t", "zones": [{"id": "z", "label": "Z"}],
+            "nodes": [{"id": "a", "zone": "z", "label": "Database"}, {"id": "b", "zone": "z", "label": "Database", "icon": "none"}]}
+    d = hld.build(spec, "t")
+    imgs = {e["id"] for e in d.elements if e["type"] == "image"}
+    assert imgs == {"img-a"}
+    d2 = hld.build({**spec, "icons": "none"}, "t")
+    assert not [e for e in d2.elements if e["type"] == "image"]

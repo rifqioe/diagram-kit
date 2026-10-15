@@ -9,13 +9,15 @@ from pathlib import Path
 
 from .core import (Diagram, SpecError, arrow_el, base, block_width, box_with_text, get_theme, need, register_icon, text_el,
                    text_width, wrap_text)
+from .logos import auto_icon
 from .route import EdgeIn, Router, add_jumps
 
 _EDGE = re.compile(r"^\s*([\w.\-]+?)\s*(-->|->)\s*([\w.\-]+)\s*(?::\s*(.*))?$", re.S)
 SIDES = ("top", "right", "bottom", "left")
 
-LAYOUT = {"node_gap_x": 52, "node_gap_y": 72, "node_gap_y_tight": 36, "zone_gap_x": 90, "zone_gap_y": 80, "zone_pad": 24, "zone_header": 40,
-          "margin": 60, "top": 100, "min_node_w": 150, "min_node_h": 56}
+# compact by default; `layout:` in the spec overrides any key. fill_rows spreads a short zone's rows over its grid cell.
+LAYOUT = {"node_gap_x": 50, "node_gap_y": 58, "node_gap_y_tight": 24, "zone_gap_x": 50, "zone_gap_y": 52, "zone_pad": 20,
+          "zone_header": 38, "margin": 40, "top": 80, "min_node_w": 140, "min_node_h": 52, "fill_rows": True}
 
 
 def _cells(items, ncols, where, get_rc, get_span):
@@ -101,6 +103,10 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
     for n in nodes:
         label = wrap_text(need(n, "label", f"node '{n['id']}'"))
         n["_label"] = label
+        if str(n.get("icon", "")).lower() == "none":
+            n["icon"] = None
+        elif not n.get("icon") and str(spec.get("icons", "auto")).lower() != "none":
+            n["icon"] = auto_icon(" ".join(str(n["label"]).split()))  # logo first, pictogram second
         icon = 52 if n.get("icon") else 0
         w = n.get("w") or max(L["min_node_w"], block_width(label, FS) + 36 + icon)
         h = n.get("h") or max(L["min_node_h"], len(label.split("\n")) * FS * 1.25 + 30)
@@ -189,10 +195,13 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
             za, zb = nid.get(d.get("from"), {}).get("zone"), nid.get(d.get("to"), {}).get("zone")
             if za and zb and za != zb:
                 pairs.append((za, zb))
-        cands = [("as-is", explicit), ("transposed", {k: (c, r) for k, (r, c) in explicit.items()})]
-        flat = [{"id": z["id"]} for z in zones]
-        for k in range(1, len(zones) + 1):
-            cands.append((f"flow{k}", _cells(flat, k, "zone", lambda z: (None, None), lambda z: 1)))
+        cands = [("as-is", explicit)]
+        if not all(z.get("row") is not None and z.get("col") is not None for z in zones):
+            # re-flow only when the author left zone positions open; fully pinned grids are kept as written
+            cands.append(("transposed", {k: (c, r) for k, (r, c) in explicit.items()}))
+            flat = [{"id": z["id"]} for z in zones]
+            for k in range(1, len(zones) + 1):
+                cands.append((f"flow{k}", _cells(flat, k, "zone", lambda z: (None, None), lambda z: 1)))
         best = None
         for cap in [None, 1, 2, 3, 4, 5, 6]:
             zl_c = make_zlayout(cap)
@@ -227,7 +236,15 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
         extra = zw - 2 * pad - (sum(zl["colw"]) + L["node_gap_x"] * (len(zl["colw"]) - 1))
         colw = [w + extra / len(zl["colw"]) for w in zl["colw"]]
         colx = [zx + pad + sum(colw[:k]) + L["node_gap_x"] * k for k in range(len(colw))]
-        rowy = [zy + zl["head"] + sum(zl["rowh"][:k]) + sum(zl["rowgap"][:k]) for k in range(len(zl["rowh"]))]
+        # a zone shorter than its grid cell: spread rows over the free height (single row: center it) so no band stays empty
+        free = zh - zl["head"] - zl["pad"] - sum(zl["rowh"]) - sum(zl["rowgap"])
+        nr = len(zl["rowh"])
+        if free > 1 and L.get("fill_rows", True) and zl["framed"]:
+            vgap = free / (nr - 1) if nr > 1 else 0.0
+            voff = 0.0 if nr > 1 else free / 2
+        else:
+            vgap, voff = 0.0, 0.0
+        rowy = [zy + zl["head"] + voff + sum(zl["rowh"][:k]) + sum(zl["rowgap"][:k]) + vgap * k for k in range(nr)]
         for n in zl["nodes"]:
             rr, cc = zl["pos"][n["id"]]
             sp = zl["span"][n["id"]]
