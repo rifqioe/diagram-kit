@@ -231,8 +231,9 @@ def build(spec: dict, name: str = "hld", theme=None, base_dir=".", orientation=N
             icon_id = register_icon(files, n["icon"], base_dir, warnings, th.text) if n.get("icon") else None
             off = 52 if icon_id else 0
             align = n.get("align", "center")
+            pad = 20 if align == "left" else 0  # left-aligned text needs breathing room from the border
             node_els += box_with_text(n["id"], x, y, w, h, n["_label"], nfill, nstroke, fs=FS, text_color=th.text,
-                                      dashed=bool(n.get("dashed")), text_x=x + off, text_w=w - off, align=align)
+                                      dashed=bool(n.get("dashed")), text_x=x + off + pad, text_w=w - off - 2 * pad, align=align)
             if icon_id:
                 node_els.append(base("image", "img-" + n["id"], x + 10, y + h / 2 - 17, 34, 34, fileId=icon_id, status="saved",
                                      scale=[1, 1], groupIds=["grp-" + n["id"]], strokeColor="transparent"))
